@@ -141,9 +141,8 @@ if Win.wasOKed():
 	if add_roi:
 		from ij.plugin.frame 	import RoiManager
 		RM = RoiManager()
-		rm = RM.getInstance()
-
-
+		rm = RM.getInstance()	
+	
 	# Convert method string to the opencv corresponding index
 	Dico_Method  = {"Square difference":0,"Normalised Square Difference":1,"Cross-Correlation":2,"Normalised cross-correlation":3,"0-mean cross-correlation":4,"Normalised 0-mean cross-correlation":5}
 	Method       =  Dico_Method[method]
@@ -198,10 +197,14 @@ if Win.wasOKed():
 			roi.setName(hit['TemplateName'])
 			roi.setPosition(i+1) # set ROI Z-position
 			image.setSlice(i+1)
-			image.setRoi(roi)
 			
 			if add_roi:
 				rm.add(None, roi, i+1) # Trick to be able to set slice when less images than the number of ROI. Here i is an digit index before the Roi Name 
+				
+				# Update Roi display
+				rm.runCommand("Associate", "true")	
+				rm.runCommand("Show All with labels")
+				IJ.selectWindow(ImageName) # does not work always
 				
 			if show_table:
 				Xcorner, Ycorner = hit['BBox'][0], hit['BBox'][1]
@@ -214,11 +217,3 @@ if Win.wasOKed():
 	# Display result table
 	if show_table:
 		Table.show("Results")
-
-	if add_roi:
-		# Show All ROI + Associate ROI to slices 
-		rm.runCommand("Associate", "true")	
-		rm.runCommand("Show All with labels")
-
-		# Bring image to the front
-		IJ.selectWindow(ImageName) # does not work always
