@@ -110,8 +110,8 @@ if Win.wasOKed():
 		Bool_SearchRoi = False
 
 	# Define offset
+	imageBis = image.duplicate() # If ROI is present duplicate crop it. Better than crop which act only on one slice for stacks
 	if Bool_SearchRoi:
-		image = image.duplicate() # If ROI is present duplicate crop it. Better than crop which act only on one slice for stacks
 		dX = int(searchRoi.getXBase())
 		dY = int(searchRoi.getYBase())
 	else:
@@ -128,7 +128,7 @@ if Win.wasOKed():
 
 
 	## Check that the template is smaller than the (possibly cropped) image
-	if template.height>image.height or template.width>image.width:
+	if template.height>imageBis.height or template.width>imageBis.width:
 		raise Exception('The template is larger in width and/or height than the searched image')
 
 	### Initialise outputs ###
@@ -149,11 +149,11 @@ if Win.wasOKed():
 
 
 	# Generate the list of images
-	if image.getStackSize()==1:
-		ListImage = [image]
+	if imageBis.getStackSize()==1:
+		ListImage = [imageBis]
 	else:
 		from ij import ImagePlus
-		ImageStack = image.getStack()
+		ImageStack = imageBis.getStack()
 		ListImage = [ ImagePlus(ImageStack.getSliceLabel(i).split('\n',1)[0], ImageStack.getProcessor(i) ) for i in xrange(1,ImageStack.getSize()+1) ]
 		
 
