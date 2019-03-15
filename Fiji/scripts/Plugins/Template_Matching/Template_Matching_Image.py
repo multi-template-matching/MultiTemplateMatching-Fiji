@@ -110,11 +110,12 @@ if Win.wasOKed():
 		Bool_SearchRoi = False
 
 	# Define offset
-	imageBis = image.duplicate() # If ROI is present duplicate crop it. Better than crop which act only on one slice for stacks
 	if Bool_SearchRoi:
+		imageBis = image.duplicate() # If ROI is present duplicate will crop it. Better than image.crop() which acts only on one slice for stacks
 		dX = int(searchRoi.getXBase())
 		dY = int(searchRoi.getYBase())
 	else:
+		imageBis = image # no duplication to save memory, imageBis just point to the same object
 		dX = dY = 0
 
 
