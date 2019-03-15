@@ -111,7 +111,7 @@ if Win.wasOKed():
 
 	# Define offset
 	if Bool_SearchRoi:
-		image = image.crop()
+		image = image.duplicate() # If ROI is present duplicate crop it. Better than crop which act only on one slice for stacks
 		dX = int(searchRoi.getXBase())
 		dY = int(searchRoi.getYBase())
 	else:
