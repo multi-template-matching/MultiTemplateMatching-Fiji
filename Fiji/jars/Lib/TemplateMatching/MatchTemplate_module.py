@@ -9,11 +9,6 @@ A limited search area can be provided by adding a ROI to the ROI manager. This R
 This is especially important when running the macro several time : delete the previously detected ROI 
 There should not be any other ROI in addition ot this search ROI otherwiose the displayed ROI will be mispositionned in the resulting stack 
  
-Use :  
-- Call GUI once collecting the parameters 
-- Call PreProcess once (setting up template...) 
-- Call Run(PathToImage) with each target image for which to perform the template search 
- 
 NB : 
 - all target images should have the same size since they are appended to a stack 
  
@@ -25,10 +20,7 @@ TO DO :
 - Found image in stacks and save the stack at the end (add a Terminate() function). currently the template are saved as separate images 
  
 - Make a function that generate and return the GUI object, and a second one that opens this GUI (could be used to reuse the GUI for the non smart imaging): Maybe once we use the Pref service instead of file	
- 
-ISSUES: 
-- Some ROI were missing sometimes 
-'''
+ '''
 # Python
 from __future__		import division 
 
