@@ -173,33 +173,36 @@ def FindMinMax(CorrMapCV, Unique=True, MinMax="Max", Score_Threshold=0.5, Tolera
 		
 		
 		## For both cases (Multi-Min/Max-detection) detect maxima on the thresholded map
-		excludeOnEdge = False # otherwise miss quite a lot of them
-		Polygon = MaximumFinder().getMaxima(CorrMapThresh, Tolerance, excludeOnEdge)
-		
-		# Maxima as list of points
-		#roi = PointRoi(Polygon)
-		
-		# Generate Hit from coordinates
-		for X,Y in zip(Polygon.xpoints, Polygon.ypoints):
+		if CorrMapThresh.getMax()!=0: # Check if image is completely black (kind of fix for https://github.com/imagej/imagej1/issues/74 )
 			
-			# Get point coordinates
-			#X, Y = point.getX(), point.getY()
+			# Detect local maxima
+			excludeOnEdge = False # otherwise miss quite a lot of them
+			Polygon = MaximumFinder().getMaxima(CorrMapThresh, Tolerance, excludeOnEdge)
+			
+			# Maxima as list of points
+			#roi = PointRoi(Polygon)
+			
+			# Generate Hit from max coordinates
+			for X,Y in zip(Polygon.xpoints, Polygon.ypoints):
+			
+				# Get point coordinates
+				#X, Y = point.getX(), point.getY()
 
-			# Get Coeff
-			Coeff = CorrMapThresh.getPixel(int(X), int(Y))
-			Coeff = Float.intBitsToFloat(Coeff) # require java.lang.Float
-			
-			# Revert the score again if we were detecting minima initially (since found as maxima of a reverted correlation map)
-			if MinMax=="Min":
-				Coeff = 1-Coeff
-			
-			# Wrap into corresponding hit
-			Extrema.append( (X, Y, Coeff) )
-	
-	
+				# Get Coeff
+				Coeff = CorrMapThresh.getPixel(int(X), int(Y))
+				Coeff = Float.intBitsToFloat(Coeff) # require java.lang.Float
+				
+				# Revert the score again if we were detecting minima initially (since found as maxima of a reverted correlation map)
+				if MinMax=="Min":
+					Coeff = 1-Coeff
+				
+				# Wrap into corresponding hit
+				Extrema.append( (X, Y, Coeff) )
 	
 	return Extrema
 
+	
+	
 	
 def getHit_Template(ImpTemplate, ImpImage, FlipV=False, FlipH=False, Angles='', Method=5, N_Hit=1, Score_Threshold=0.5, Tolerance=0.1):
 	'''
