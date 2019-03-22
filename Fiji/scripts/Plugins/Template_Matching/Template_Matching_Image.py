@@ -22,11 +22,8 @@ Minima/maxima in the correlation map are detected, followed by Non-Maxima Supres
 The multifile input is not yet macro recordable. An alternative is to use a folder input and to process the content of the folder (but not as flexible)
 
 TO DO : 
-- order of the column in result table
 - use steerable tempalte matching see steerable detector BIG Lausanne
 
-NB : 
-- Delete the previous ROI for every new Run otherwise 1st ROI is used to limit the search
 
 - Method limited to normalised method to have correlation map in range 0-1 : easier to apply a treshold. 
 Otherwise normalising relative to maxima of each correlation map is not good since this result in having the global maxima to always be one, 
@@ -109,13 +106,14 @@ if Win.wasOKed():
 	else:
 		Bool_SearchRoi = False
 
+	# Duplicate (make sure to left initial image untouched + will crop it if serach ROI)
+	imageBis = image.duplicate() # If ROI is present duplicate will crop it. Better than image.crop() which acts only on one slice for stacks
+	
 	# Define offset
 	if Bool_SearchRoi:
-		imageBis = image.duplicate() # If ROI is present duplicate will crop it. Better than image.crop() which acts only on one slice for stacks
 		dX = int(searchRoi.getXBase())
 		dY = int(searchRoi.getYBase())
 	else:
-		imageBis = image # no duplication to save memory, imageBis just point to the same object
 		dX = dY = 0
 
 
@@ -141,29 +139,34 @@ if Win.wasOKed():
 	if add_roi:
 		from ij.plugin.frame 	import RoiManager
 		RM = RoiManager()
-		rm = RM.getInstance()	
-	
+		rm = RM.getInstance()
+
+
 	# Convert method string to the opencv corresponding index
 	Dico_Method  = {"Square difference":0,"Normalised Square Difference":1,"Cross-Correlation":2,"Normalised cross-correlation":3,"0-mean cross-correlation":4,"Normalised 0-mean cross-correlation":5}
 	Method       =  Dico_Method[method]
 
-
-	# Generate the list of images
-	if imageBis.getStackSize()==1:
-		ListImage = [imageBis]
-	else:
-		from ij import ImagePlus
-		ImageStack = imageBis.getStack()
-		ListImage = [ ImagePlus(ImageStack.getSliceLabel(i).split('\n',1)[0], ImageStack.getProcessor(i) ) for i in xrange(1,ImageStack.getSize()+1) ]
-		
-
+	
 	# Loop over the images in the stack (or directly process if unique)
-	for i,ImpImage in enumerate(ListImage): 
-
-		# Do the template matching
+	ImageStack = imageBis.getStack()
+	nSlice     = ImageStack.getSize()
+	
+	for i in xrange(1,nSlice+1):
+		
+		if nSlice == 1:
+			ImpImage = imageBis # imageBis is possibly cropped to the search region
+		else:
+			# Isolate the slice when using a stack
+			imageBis.setSlice(i)
+			ImpImage = imageBis.crop() # crop here just isolate the slice from the stack and returns it as an imagePlus (the title is not the slice title though)
+						
+			# Get the title of the initial slice to put to the ImagePlus 
+			Title = ImageStack.getSliceLabel(i).split('\n',1)[0] # split otherwise we get some unecessary information
+			ImpImage.setTitle(Title)
+						
+		# Do the template(s) matching
 		Hits_BeforeNMS = getHit_Template(template, ImpImage, flipv, fliph, angles, Method, n_hit, score_threshold, tolerance) # template and image as ImagePlus (to get the name together with the image matrix)
 
-		
 		### NMS ###
 		print "\n-- Hits before NMS --\n", 
 		for hit in Hits_BeforeNMS : print hit
@@ -195,17 +198,18 @@ if Win.wasOKed():
 			# Create detected ROI
 			roi = Roi(*hit['BBox'])
 			roi.setName(hit['TemplateName'])
-			roi.setPosition(i+1) # set ROI Z-position
-			image.setSlice(i+1)
+			roi.setPosition(i) # set ROI Z-position
+			image.setSlice(i)
+			#image.setRoi(roi)
 			
 			if add_roi:
-				rm.add(None, roi, i+1) # Trick to be able to set slice when less images than the number of ROI. Here i is an digit index before the Roi Name 
+				rm.add(None, roi, i) # Trick to be able to set Z-position when less images than the number of ROI. Here i is an digit index before the Roi Name 
 				
-				# Update Roi display
+				# Show All ROI + Associate ROI to slices 
 				rm.runCommand("Associate", "true")	
 				rm.runCommand("Show All with labels")
 				IJ.selectWindow(ImageName) # does not work always
-				
+			
 			if show_table:
 				Xcorner, Ycorner = hit['BBox'][0], hit['BBox'][1]
 				Xcenter, Ycenter = CornerToCenter(Xcorner, Ycorner, hit['BBox'][2], hit['BBox'][3])
