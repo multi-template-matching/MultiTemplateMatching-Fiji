@@ -69,8 +69,8 @@ else:
 from ij import IJ 
 
 # Home-Made module
-from TemplateMatching.MatchTemplate_module    import getHit_Template, CornerToCenter
-from TemplateMatching.NonMaximaSupression_Py2 import NMS
+from Template_Matching.MatchTemplate_module    import getHit_Template, CornerToCenter
+from Template_Matching.NonMaximaSupression_Py2 import NMS
 
 
 # Convert method string to the index

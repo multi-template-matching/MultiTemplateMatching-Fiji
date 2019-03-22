@@ -124,8 +124,8 @@ if Win.wasOKed():
 	from ij.gui 	   import Roi
 
 	## Import  HomeMade modules
-	from ROIdetection.NonMaximaSupression_Py2 import NMS
-	from ROIdetection.MatchTemplate_Module    import getHit_Template, CornerToCenter 
+	from Template_Matching.NonMaximaSupression_Py2 import NMS
+	from Template_Matching.MatchTemplate_Module    import getHit_Template, CornerToCenter 
 
 
 	## Check that the template is smaller than the (possibly cropped) image

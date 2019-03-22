@@ -57,8 +57,8 @@ import time 	  # for becnhmark
 from ij import IJ # ImageJ1 import
 
 ## Home-Made module 
-from MatchTemplate.MatchTemplate_module    import getHit_Template, CornerToCenter 
-from MatchTemplate.NonMaximaSupression_Py2 import NMS 
+from Template_Matching.MatchTemplate_module    import getHit_Template, CornerToCenter 
+from Template_Matching.NonMaximaSupression_Py2 import NMS 
 
 if show_images:  
 	from ij import ImagePlus, ImageStack 
