@@ -1,3 +1,11 @@
+/*
+ * This macro allows to do a 2-step template matching
+ * The first template allows to find an object and the second template finds a sub-object within the previously found object
+ * Therefore the second template must be smaller than the first one
+ * Both detection (1st and 2nd template) are returned in the ROI manager
+ * 
+ */
+
 #@ImagePlus (Label="Template1") temp1
 #@ImagePlus (Label="Template2") temp2
 #@ImagePlus (Label="Image") image
@@ -29,7 +37,7 @@ Roi.remove;
 n = nSlices;
 for (i=1; i<=n; i++) {
 	
-	// Isolate slice from stack
+	// Isolate slice from stack (to perform the second template matching with a custom search ROI for that slice)
 	selectImage(image); //important here to select back the image when entering a new iteration
 	setSlice(i);
 	run("Duplicate...", "title=Slice");
