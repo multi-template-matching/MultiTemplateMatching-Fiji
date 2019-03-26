@@ -53,11 +53,11 @@ Another possibility would be to have an absolute threshold (realtive to the corr
 The multifile input is not yet macro recordable. An alternative is to use a folder input and to process the content of the folder (but not as flexible) 
 '''
 ### IMPORT ###
-import time 	  # for becnhmark
+import time 	  # for benchmark
 from ij import IJ # ImageJ1 import
 
 ## Home-Made module 
-from Template_Matching.MatchTemplate_module    import getHit_Template, CornerToCenter 
+from Template_Matching.MatchTemplate_Module    import getHit_Template, CornerToCenter 
 from Template_Matching.NonMaximaSupression_Py2 import NMS 
 
 if show_images:  
