@@ -47,7 +47,7 @@ Win.addNumericField("Score_Threshold [0-1]", prefs.getFloat("Score_Threshold",0.
 Win.addNumericField("Min_peak_height relative to neighborhood ([0-1], decrease to get more hits)", prefs.getFloat("Tolerance",0.1), 2)
 Win.addNumericField("Maximal_overlap between Bounding boxes [0-1]", prefs.getFloat("MaxOverlap",0.4), 2)
 Win.addMessage("Outputs")
-Win.addCheckbox("Add detected ROI to ROI manager", prefs.getInt("AddRoi", True))
+Win.addCheckbox("Add_ROI detected to ROI manager", prefs.getInt("AddRoi", True))
 Win.addCheckbox("Show result table", prefs.getInt("ShowTable", False))
 Win.addMessage("If you use this plugin please cite : xxx")
 Win.addHelp("https://github.com/acquifer/RoiDetection/wiki")

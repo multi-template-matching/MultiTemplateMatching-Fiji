@@ -28,7 +28,7 @@ Image_title = getTitle();
 //print(Image_title);
 
 // Call 1st template matching
-run("Template Matching Image", "template=" + Temp1_title + " image=" + Image_title + " rotate=[] matching_method=[Normalised 0-mean cross-correlation] number_of_templates=1 score_threshold=0.50 min_peak_height=0.10 maximal_overlap=0.25 add");
+run("Template Matching Image", "template=" + Temp1_title + " image=" + Image_title + " rotate=[] matching_method=[Normalised 0-mean cross-correlation] number_of_templates=1 score_threshold=0.50 min_peak_height=0.10 maximal_overlap=0.25 add_roi");
 
 // Loop over stack
 setBatchMode(true) // do not open extracted slices
@@ -48,7 +48,7 @@ for (i=1; i<=n; i++) {
 	makeRectangle(x, y, width, height);
 
 	// Run template matching on slice with search ROI
-	run("Template Matching Image", "template=" + Temp2_title + " image=Slice flip_template_vertically rotate=[] matching_method=[Normalised 0-mean cross-correlation] number_of_templates=2 score_threshold=0.50 min_peak_height=0.10 maximal_overlap=0.25 add");
+	run("Template Matching Image", "template=" + Temp2_title + " image=Slice flip_template_vertically rotate=[] matching_method=[Normalised 0-mean cross-correlation] number_of_templates=2 score_threshold=0.50 min_peak_height=0.10 maximal_overlap=0.25 add_roi");
 
 	// Close hidden Slice image
 	selectImage("Slice");
