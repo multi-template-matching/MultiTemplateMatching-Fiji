@@ -12,7 +12,7 @@
 #@ Float     (Label="Maximal overlap between Bounding boxes (0-1)",min=0, max=1, value=0.4, stepSize=0.1) max_overlap 
 #@ String    (visibility="MESSAGE", value="Output") out 
 #@ Boolean   (Label="Open images (as stack ie images must have identical dimensions)") show_images 
-#@ Boolean   (Label="Add ROI to ROI Manager") show_roi 
+#@ Boolean   (Label="Add ROI to ROI Manager") add_roi 
 #@ Boolean   (Label="Show result table") show_table 
 '''
 previous field : Boolean   (Label="Display correlation map(s)") show_map 
@@ -65,7 +65,7 @@ if show_images:
 	Stack_Image     = ImageStack() 
 	Stack_Image_ImP = ImagePlus() 
  
-if show_roi: 
+if add_roi: 
 	from ij.plugin.frame 	import RoiManager 
 	from ij.gui 			import Roi 
 	RM = RoiManager() 
@@ -113,7 +113,6 @@ else:
 	
 	
 
-#nROI = 0 
 ## Loop over templates for template matching and maxima detection 
 for i, im_file in enumerate(image_files): 
 		
@@ -138,8 +137,13 @@ for i, im_file in enumerate(image_files):
 	for ImpTemplate in List_Template:
 		
 		# Check that template is smaller than the searched image
-		if ImpTemplate.width>ImpImage.width or ImpTemplate.height>ImpImage.height:
-			raise Exception('The current template is larger in width and/or height than the searched image')
+		if Bool_SearchRoi and (ImpTemplate.height>searchRoi.getFloatHeight() or ImpTemplate.width>searchRoi.getFloatWidth()):
+			IJ.log("The template "+ ImpTemplate.getTitle() +" is larger in width and/or height than the search region -> skipped")
+			continue # go directly to the next for iteration
+		
+		elif ImpTemplate.width>ImpImage.width or ImpTemplate.height>ImpImage.height:
+			IJ.log("The template "+ ImpTemplate.getTitle() + " is larger in width and/or height than the searched image-> skipped")
+			continue # go directly to the next for iteration
 
 		# Get hits for the current template (and his flipped and/or rotated versions) 
 		List_Hit = getHit_Template(ImpTemplate, ImpImage, flipv, fliph, angles, Method, n_hit, score_threshold, tolerance) # raher use ImagePlus as input to get the name of the template used
@@ -178,18 +182,23 @@ for i, im_file in enumerate(image_files):
 		if Bool_SearchRoi: # Add the offset of the search ROI
 			hit['BBox'] = (hit['BBox'][0]+dX, hit['BBox'][1]+dY, hit['BBox'][2], hit['BBox'][3])  
 		 
-		if show_roi: 
+		if add_roi: 
 			roi = Roi(*hit['BBox']) 
 			roi.setName(hit['TemplateName']) 
 			roi.setPosition(i+1) # set slice position 
-			#nROI+=1 
 			rm.add(None, roi, i+1) # Trick to be able to set slice when less images than ROI. Here i is an digit index before the Roi Name 
 			 
 		if show_table: 
 			Xcorner, Ycorner = hit['BBox'][0], hit['BBox'][1] 
 			Xcenter, Ycenter = CornerToCenter(Xcorner, Ycorner, hit['BBox'][2], hit['BBox'][3]) 
+			
 			Dico = {'Image':ImName, 'Template':hit['TemplateName'] ,'Xcorner':Xcorner, 'Ycorner':Ycorner, 'Xcenter':Xcenter, 'Ycenter':Ycenter, 'Score':hit['Score']} 
-			AddToTable(Table, Dico, Order=('Image', 'Template', 'Score', 'Xcorner', 'Ycorner', 'Xcenter', 'Ycenter')) 
+			if add_roi:
+				Dico['Roi Index'] = rm.getCount()
+				AddToTable(Table, Dico, Order=("Image", "Template", "Score", "Roi Index", "Xcorner", "Ycorner", "Xcenter", "Ycenter")) 
+			else:				
+				AddToTable(Table, Dico, Order=('Image', 'Template', 'Score', 'Xcorner', 'Ycorner', 'Xcenter', 'Ycenter')) 
+			
 			Table.show("Results")
 	 
 	 
@@ -209,7 +218,7 @@ for i, im_file in enumerate(image_files):
 		Stack_Image_ImP.setSlice(i)
 		Stack_Image_ImP.show()
 
-		if show_roi:
+		if add_roi:
 			# Show All ROI + Associate ROI to slices 
 			rm.runCommand("Associate", "true")	
 			rm.runCommand("Show All with labels")

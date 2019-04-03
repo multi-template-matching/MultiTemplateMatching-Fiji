@@ -223,9 +223,14 @@ if Win.wasOKed():
 		## Loop over template for matching against current image 
 		for ImpTemplate in List_Template:
 			
-			# Check that template is smaller than the searched image
-			if ImpTemplate.width>ImpImage.width or ImpTemplate.height>ImpImage.height:
-				raise Exception('The current template is larger in width and/or height than the searched image')
+			# Check that template is smaller than the searched image or ROI
+			if Bool_SearchRoi and (ImpTemplate.height>searchRoi.getFloatHeight() or ImpTemplate.width>searchRoi.getFloatWidth()):
+				IJ.log("The template "+ ImpTemplate.getTitle() +" is larger in width and/or height than the search region -> skipped")
+				continue # go directly to the next for iteration
+			
+			elif ImpTemplate.width>ImpImage.width or ImpTemplate.height>ImpImage.height:
+				IJ.log("The template "+ ImpTemplate.getTitle() + " is larger in width and/or height than the searched image-> skipped")
+				continue # go directly to the next for iteration
 
 			# Get hits for the current template (and his flipped and/or rotated versions) 
 			List_Hit = getHit_Template(ImpTemplate, ImpImage, flipv, fliph, angles, Method, n_hit, score_threshold, tolerance) # raher use ImagePlus as input to get the name of the template used
@@ -271,9 +276,13 @@ if Win.wasOKed():
 			if show_table:
 				Xcorner, Ycorner = hit['BBox'][0], hit['BBox'][1]
 				Xcenter, Ycenter = CornerToCenter(Xcorner, Ycorner, hit['BBox'][2], hit['BBox'][3])
-				Dico = {'Image':hit['ImageName'], 'Template':hit['TemplateName'] ,'Xcorner':Xcorner, 'Ycorner':Ycorner, 'Xcenter':Xcenter, 'Ycenter':Ycenter, 'Score':hit['Score']}
-				AddToTable(Table, Dico, Order=("Image", "Template", "Score", "Xcorner", "Ycorner", "Xcenter", "Ycenter"))
-
+				
+				Dico = {'Image':ImName, 'Template':hit['TemplateName'] ,'Xcorner':Xcorner, 'Ycorner':Ycorner, 'Xcenter':Xcenter, 'Ycenter':Ycenter, 'Score':hit['Score']} 
+				if add_roi:
+					Dico['Roi Index'] = rm.getCount()
+					AddToTable(Table, Dico, Order=("Image", "Template", "Score", "Roi Index", "Xcorner", "Ycorner", "Xcenter", "Ycenter")) 
+				else:				
+					AddToTable(Table, Dico, Order=('Image', 'Template', 'Score', 'Xcorner', 'Ycorner', 'Xcenter', 'Ycenter')) 
 
 		
 		## Display outputs
