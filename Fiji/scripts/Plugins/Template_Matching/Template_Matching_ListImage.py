@@ -150,8 +150,8 @@ for i, im_file in enumerate(image_files):
 	 
 	 
 	### NMS ###
-	print "\n-- Hits before NMS --\n", 
-	for hit in Hits_BeforeNMS: print hit 
+	#print "\n-- Hits before NMS --\n", 
+	#for hit in Hits_BeforeNMS: print hit 
  
 	# InterHit NMS if more than one hit 
 	if Method in [0,1]:  
@@ -160,8 +160,8 @@ for i, im_file in enumerate(image_files):
 	else: 
 		Hits_AfterNMS = NMS(Hits_BeforeNMS, N=n_hit, maxOverlap=max_overlap, sortDescending=True) 
  
-	print "\n-- Hits after NMS --\n" 
-	for hit in Hits_AfterNMS : print hit
+	#print "\n-- Hits after NMS --\n" 
+	#for hit in Hits_AfterNMS : print hit
 	
 	
 	
@@ -214,5 +214,5 @@ for i, im_file in enumerate(image_files):
 			rm.runCommand("Associate", "true")	
 			rm.runCommand("Show All with labels")
 	
-for i in ListTime:
-	print i
+#for i in ListTime:
+	#print i

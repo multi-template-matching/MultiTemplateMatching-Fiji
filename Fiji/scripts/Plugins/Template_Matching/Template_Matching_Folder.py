@@ -236,8 +236,8 @@ if Win.wasOKed():
 		 
 		 
 		### NMS ###
-		print "\n-- Hits before NMS --\n", 
-		for hit in Hits_BeforeNMS: print hit 
+		#print "\n-- Hits before NMS --\n", 
+		#for hit in Hits_BeforeNMS: print hit 
 	 
 		# InterHit NMS if more than one hit 
 		if Method in [0,1]:  
@@ -246,7 +246,7 @@ if Win.wasOKed():
 		else: 
 			Hits_AfterNMS = NMS(Hits_BeforeNMS, N=n_hit, maxOverlap=max_overlap, sortDescending=True) 
 	 
-		print "\n-- Hits after NMS --\n" 
+		#print "\n-- Hits after NMS --\n" 
 		#for hit in Hits_AfterNMS : print hit	
 		
 	
@@ -255,7 +255,7 @@ if Win.wasOKed():
 		## Loop over final hits to generate ROI ##
 		for hit in Hits_AfterNMS:
 			
-			print hit
+			#print hit
 			
 			if Bool_SearchRoi: # Add offset of search ROI
 				hit['BBox'] = (hit['BBox'][0]+dX, hit['BBox'][1]+dY, hit['BBox'][2], hit['BBox'][3])  
