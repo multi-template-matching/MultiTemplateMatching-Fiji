@@ -220,8 +220,8 @@ if Win.wasOKed():
 		# Loop over final hits to generate ROI 
 		for hit in Hits_AfterNMS: 
 			 
-			#print hit 
-			 
+			#print hit	
+			
 			if Bool_SearchRoi: # Add offset of search ROI 
 				hit['BBox'] = (hit['BBox'][0]+dX, hit['BBox'][1]+dY, hit['BBox'][2], hit['BBox'][3])   
 			 
@@ -244,8 +244,14 @@ if Win.wasOKed():
 				Xcorner, Ycorner = hit['BBox'][0], hit['BBox'][1] 
 				Xcenter, Ycenter = CornerToCenter(Xcorner, Ycorner, hit['BBox'][2], hit['BBox'][3]) 
 				
-				Dico = {'Image':hit['ImageName'],'Slice':i, 'Template':hit['TemplateName'] ,'Xcorner':Xcorner, 'Ycorner':Ycorner, 'Xcenter':Xcenter, 'Ycenter':Ycenter, 'Score':hit['Score']} 
-				AddToTable(Table, Dico, Order=("Image", "Slice", "Template", "Score", "Xcorner", "Ycorner", "Xcenter", "Ycenter")) 
+				Dico = {'Image':hit['ImageName'],'Slice':i, 'Template':hit['TemplateName'] ,'Xcorner':Xcorner, 'Ycorner':Ycorner, 'Xcenter':Xcenter, 'Ycenter':Ycenter, 'Score':hit['Score']} # column order is defined below
+				
+				if add_roi: 
+					# Add ROI index to the result table
+					Dico['Roi Index'] = rm.getCount()
+					AddToTable(Table, Dico, Order=("Image", "Slice", "Template", "Score", "Roi Index", "Xcorner", "Ycorner", "Xcenter", "Ycenter")) 
+				else:	
+					AddToTable(Table, Dico, Order=("Image", "Slice", "Template", "Score", "Xcorner", "Ycorner", "Xcenter", "Ycenter")) 
  
  
 			 
