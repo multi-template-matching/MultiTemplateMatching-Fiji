@@ -8,11 +8,19 @@ Let say we have a correlation map and we want to detect the N best location in t
 The threshold for the overlap used is a maximal value of Intersection over Union (IoU). Large overlap will have large IoU.
 The IoU is conveneient as it is normalised between 0 and 1 and is a value normalised by the intial area.
 
-To keep the N best hit/bounding-box without overlap, we first take the N best hit as returned by the maxima detector
-Then we loop over the best hit (by decreasing order of score, best score first) and compute the IoU with each remaning bounding box
-If the IoU is too high, the second bounding box is deleted and replaced by the N+1 th (or N + offset) bounding box in the intiial list of hit
+To keep the N best hit/bounding-boxes without overlap, we first collect all hits that pass the score threshold. If we used several tempaltes and thus have several correlation map we perform the NMS on the full set of hit
+Then we order all those hit by score to have the best score first
+We initialise the list of finally collected hit with the first best hit
+Then we loop over the remaining hit, and compute the IoU between the bounding box of this hit and the previously collected hit.
+If one of the IoU is above the threshold, then the current hit is discarded
+Otherwise thie means the current hit is not overlapping with any previously collected hit, therefore we can add it to the lsit of finally collected hit.
+The iteration continues with the next hit, until we collect the N expected hits, or until there are no more hits to test
 
-ListOfHit contains N dictionnaries, 1/hit : {'TemplateIdx':i, 'BBox':(x,y,width,hieght), 'Score':float} 
+if N_Hit = 1, the NMS will not compute any IoU actually, only returns the first oen with the highest score
+
+ListOfHit contains N dictionnaries, 1 per hit : {'TemplateIdx':i, 'BBox':(x,y,width,hieght), 'Score':float} 
+
+NB : remove print statements that were dramatically slowing down the execution when used as a plugin (not observed from the script interpreter)
 
 @author: Laurent Thomas
 """
@@ -24,8 +32,8 @@ def computeIoU(BBox1,BBox2):
 	Compute the IoU (Intersection over Union) between 2 rectangular bounding boxes defined by the top left (Xtop,Ytop) and bottom right (Xbot, Ybot) pixel coordinates
 	Code adapted from https://www.pyimagesearch.com/2016/11/07/intersection-over-union-iou-for-object-detection/
 	'''
-	print 'BBox1 : ', BBox1
-	print 'BBox2 : ', BBox2
+	#print 'BBox1 : ', BBox1
+	#print 'BBox2 : ', BBox2
 	
 	# Unpack input (python3 - tuple input are no more supported)
 	Xleft1, Ytop1, Width1, Height1 = BBox1
@@ -53,11 +61,11 @@ def computeIoU(BBox1,BBox2):
 	Roi2_in_Roi1 = Roi1.contains(Xleft2, Ytop2) and  Roi1.contains(Xright2, Ytop2) and Roi1.contains(Xleft2, Ybot2) and Roi1.contains(Xright2, Ybot2)
 	
 	if Roi1_in_Roi2 or Roi2_in_Roi1:
-		print '1 BBox is included within the other'
+		#print '1 BBox is included within the other'
 		IoU = 1 # otherwise using the formula below we have value below 1 eventhough the bbox are included
 	
 	elif Xright<Xleft or Ybot<Ytop : #  (Y axis oriented towards the bottom of the screen) Check that for the intersection box, Xtop,Ytop is indeed on the top left of Xbot,Ybot otherwise it means that there is no intersection (bbox is inverted)
-		print 'No overlap'
+		#print 'No overlap'
 		IoU = 0 
 	
 	else:
@@ -72,7 +80,7 @@ def computeIoU(BBox1,BBox2):
 		# Compute Intersection over union
 		IoU = Inter/Union
 	
-	print 'IoU : ', IoU
+	#print 'IoU : ', IoU
 	return IoU
 
 
@@ -132,15 +140,15 @@ def NMS(List_Hit, scoreThreshold=None, sortDescending=True, N=1000, maxOverlap=0
 		
 		# Split the inital pool into Final Hit that are kept and restHit that can be tested
 		# Initialisation : 1st keep is kept for sure, restHit is the rest of the list
-		print "\nInitialise final hit list with first best hit"
+		#print "\nInitialise final hit list with first best hit"
 		FinalHit = [List_ThreshHit[0]]
 		restHit	 = List_ThreshHit[1:]
 		
-		print "-> Final hit list"
-		for hit in FinalHit: print hit
+		#print "-> Final hit list"
+		#for hit in FinalHit: print hit
 		
-		print "\n-> Remaining hit list"
-		for hit in restHit: print hit
+		#print "\n-> Remaining hit list"
+		#for hit in restHit: print hit
 		
 		
 		
@@ -148,18 +156,18 @@ def NMS(List_Hit, scoreThreshold=None, sortDescending=True, N=1000, maxOverlap=0
 		while len(FinalHit)<N and restHit : # second condition is restHit is not empty
 			
 			# Report state of the loop
-			print "\n\n\nNext while iteration"
+			#print "\n\n\nNext while iteration"
 			
-			print "-> Final hit list"
-			for hit in FinalHit: print hit
+			#print "-> Final hit list"
+			#for hit in FinalHit: print hit
 			
-			print "\n-> Remaining hit list"
-			for hit in restHit: print hit
+			#print "\n-> Remaining hit list"
+			#for hit in restHit: print hit
 			
 			# pick the next best peak in the rest of peak
 			test_hit  = restHit[0]
 			test_bbox = test_hit['BBox']
-			print "\nTest BBox:{} for overlap against higher score bboxes".format(test_bbox)
+			#print "\nTest BBox:{} for overlap against higher score bboxes".format(test_bbox)
 			 
 			# Loop over hit in FinalHit to compute successively overlap with test_peak
 			for hit in FinalHit: 
@@ -175,11 +183,11 @@ def NMS(List_Hit, scoreThreshold=None, sortDescending=True, N=1000, maxOverlap=0
 		
 				if IoU>maxOverlap:
 					ToAppend = False
-					print "IoU above threshold\n"
+					#print "IoU above threshold\n"
 					break # no need to test overlap with the other peaks
 				
 				else:
-					print "IoU below threshold\n"
+					#print "IoU below threshold\n"
 					# no overlap for this particular (test_peak,peak) pair, keep looping to test the other (test_peak,peak)
 					continue
 		  
@@ -187,21 +195,21 @@ def NMS(List_Hit, scoreThreshold=None, sortDescending=True, N=1000, maxOverlap=0
 			# After testing against all peaks (for loop is over), append or not the peak to final
 			if ToAppend:
 				# Move the test_hit from restHit to FinalHit
-				print "Append {} to list of final hits and remove it from Remaining hit list".format(test_hit)
+				#print "Append {} to list of final hits and remove it from Remaining hit list".format(test_hit)
 				FinalHit.append(test_hit)
 				restHit.remove(test_hit)
 				
 			else:
 				# only remove the test_peak from restHit
-				print "Remove {} from Remaining hit list".format(test_hit)
+				#print "Remove {} from Remaining hit list".format(test_hit)
 				restHit.remove(test_hit)
 		
 		
 		# Once function execution is done, return list of hit without overlap
-		print "\nCollected N expected hit, or no hit left to test"
+		#print "\nCollected N expected hit, or no hit left to test"
 	
 	
-	print "NMS over\n"
+	#print "NMS over\n"
 	return FinalHit
 
 

@@ -30,6 +30,7 @@ Otherwise normalising relative to maxima of each correlation map is not good sin
 eventhough its correlation value was not one. 
 Another possibility would be to have an absolute threshold (relative to the correlation score) and a relative threshold (relative to the maxima of this particular map)   
 '''
+#import time
 #@PrefService prefs 
 from fiji.util.gui import GenericDialogPlus 
  
@@ -179,14 +180,20 @@ if Win.wasOKed():
 		searchedImage.setTitle(Title) 
 		 
 			 
-		# Do the template(s) matching 
+		# Do the template(s) matching
+		#Start = time.clock()
 		Hits_BeforeNMS = getHit_Template(template, searchedImage, flipv, fliph, angles, Method, n_hit, score_threshold, tolerance) # template and image as ImagePlus (to get the name together with the image matrix) 
- 
+		#Stop = time.clock()
+		#IJ.log("getHit_Template took " + str(Stop-Start) + " seconds")
+		
 		### NMS ### 
-		print "\n-- Hits before NMS --\n",  
-		for hit in Hits_BeforeNMS : print hit 
+		#IJ.log(str(len(Hits_BeforeNMS)) + " hit before NMS") 
+		
+		#print "\n-- Hits before NMS --\n",  
+		#for hit in Hits_BeforeNMS : print hit 
  
 		# NMS if more than one hit before NMS. For n_hit=1 the NMS does not actually compute the IoU it will just take the best score 
+		#start_NMS = time.clock()
 		if len(Hits_BeforeNMS)==1: 
 			Hits_AfterNMS = Hits_BeforeNMS 
  
@@ -195,8 +202,10 @@ if Win.wasOKed():
  
 		else: 
 			Hits_AfterNMS = NMS(Hits_BeforeNMS, N=n_hit, maxOverlap=max_overlap, sortDescending=True) 
- 
-		print "\n-- Hits after NMS --\n" 
+
+ 		#stop_NMS = time.clock()
+ 		#IJ.log("NMS duration(s): " + str(stop_NMS-start_NMS))
+		#print "\n-- Hits after NMS --\n" 
 		#for hit in Hits_AfterNMS : print hit 
  
 		# NB : Hits coordinates have not been corrected for cropping here ! Done in the next for loop 
@@ -205,7 +214,7 @@ if Win.wasOKed():
 		# Loop over final hits to generate ROI 
 		for hit in Hits_AfterNMS: 
 			 
-			print hit 
+			#print hit 
 			 
 			if Bool_SearchRoi: # Add offset of search ROI 
 				hit['BBox'] = (hit['BBox'][0]+dX, hit['BBox'][1]+dY, hit['BBox'][2], hit['BBox'][3])   
@@ -235,4 +244,5 @@ if Win.wasOKed():
 			 
 	# Display result table 
 	if show_table: 
+		
 		Table.show("Results")
