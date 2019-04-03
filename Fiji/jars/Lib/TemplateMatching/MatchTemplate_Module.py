@@ -17,8 +17,6 @@ Requirements :
  
 TO DO : 
 - Images with overlay in Stack : change to the easier ij.plugin.ImagesToStack that use a list to make the stack. No need to precise the size.. 
-- Found image in stacks and save the stack at the end (add a Terminate() function). currently the template are saved as separate images 
- 
 - Make a function that generate and return the GUI object, and a second one that opens this GUI (could be used to reuse the GUI for the non smart imaging): Maybe once we use the Pref service instead of file	
  '''
 # Python
@@ -30,7 +28,7 @@ from org.bytedeco.javacpp.opencv_core	 import Mat, Scalar, Point, minMaxLoc, sub
 from org.bytedeco.javacpp				 import DoublePointer 
 
 # ImageJ
-from ij					import IJ # , ImagePlus, ImageStack 
+from ij					import IJ,ImagePlus, ImageStack 
 from ij.plugin.filter	import MaximumFinder
 #from ij.gui			import Roi, PointRoi 
 
@@ -42,8 +40,6 @@ from java.lang 	import Float #used to convert BytesToFloat
 from ImageConverter import ImProcToMat, MatToImProc
 from ImageRotator 	import Rotate
 
-
-  
   
 def MatchTemplate(ImProc_Template, ImProc_Target, Method):  
 	'''
@@ -173,6 +169,7 @@ def FindMinMax(CorrMapCV, Unique=True, MinMax="Max", Score_Threshold=0.5, Tolera
 		#roi = PointRoi(Polygon)
 		
 		# Generate Hit from max coordinates
+		#print Polygon.npoints," maxima detected in this score map"
 		if Polygon.npoints!=0: # Check that there are some points indeed. Otherwise Polygon.xpoints and ypoints are anyway initialised with [0,0,0,0] even if Npoints=0 !
 			
 			for X,Y in zip(Polygon.xpoints, Polygon.ypoints):
@@ -262,15 +259,7 @@ def getHit_Template(ImpTemplate, ImpImage, FlipV=False, FlipH=False, Angles='', 
 				TemplateName = template['Name'] # it can be original or with "_flipX"
 				
 				# Perform the rotation
-				Rotated = Rotate(template['ImProc'], angle)
-				
-				# Check that the rotated template still fits in the search area 
-				if searchROI and (searchROI.getFloatWidth()<Rotated.width or searchROI.getFloatHeight()<Rotated.height): 
-					IJ.log(TemplateName + " rotated by" + str(angle) + " degrees does not fit into the search area anymore. Cropped down")
-				
-					# Crop down to the size of the searchROI, starting from the top left corner 
-					Rotated.setRoi(0,0,int(MaxWidth),int(MaxHeight)) 
-					Rotated = Rotated.crop() 					
+				Rotated = Rotate(template['ImProc'], angle)		# a rotated template might be out of the search region		
 				
 				# Append to the list of templates
 				ListTemplate.append( {"Name": TemplateName + "_" + str(angle) + 'degrees', "ImProc":Rotated} )	
@@ -282,6 +271,7 @@ def getHit_Template(ImpTemplate, ImpImage, FlipV=False, FlipH=False, Angles='', 
 
 		## Search the current template in the image -> Correlation Map ###
 		CorrMapCV = MatchTemplate(template["ImProc"], ImProc_Image, Method) 
+		# View map for debugging
 		#CorrMap = MatToImProc(CorrMapCV)
 		#CorrMap = ImagePlus("CorrMap", CorrMap)
 		#CorrMap.show()
