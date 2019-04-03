@@ -173,7 +173,13 @@ if Win.wasOKed():
 					 
 		# Fix the name for imageBis 
 		if nSlice>1: 
-			Title = image.getStack().getSliceLabel(i).split('\n',1)[0] # split otherwise we get some unecessary information 
+			SliceLabel = image.getStack().getSliceLabel(i)
+			
+			if SliceLabel: # sometimes the slicelabel is none
+				Title = SliceLabel.split('\n',1)[0] # split otherwise we get some unecessary information 
+			else:
+				Title = image.getTitle()
+		
 		else: 
 			Title = image.getTitle() 
 		 
@@ -237,8 +243,9 @@ if Win.wasOKed():
 			if show_table: 
 				Xcorner, Ycorner = hit['BBox'][0], hit['BBox'][1] 
 				Xcenter, Ycenter = CornerToCenter(Xcorner, Ycorner, hit['BBox'][2], hit['BBox'][3]) 
-				Dico = {'Image':hit['ImageName'], 'Template':hit['TemplateName'] ,'Xcorner':Xcorner, 'Ycorner':Ycorner, 'Xcenter':Xcenter, 'Ycenter':Ycenter, 'Score':hit['Score']} 
-				AddToTable(Table, Dico, Order=("Image", "Template", "Score", "Xcorner", "Ycorner", "Xcenter", "Ycenter")) 
+				
+				Dico = {'Image':hit['ImageName'],'Slice':i, 'Template':hit['TemplateName'] ,'Xcorner':Xcorner, 'Ycorner':Ycorner, 'Xcenter':Xcenter, 'Ycenter':Ycenter, 'Score':hit['Score']} 
+				AddToTable(Table, Dico, Order=("Image", "Slice", "Template", "Score", "Xcorner", "Ycorner", "Xcenter", "Ycenter")) 
  
  
 			 
