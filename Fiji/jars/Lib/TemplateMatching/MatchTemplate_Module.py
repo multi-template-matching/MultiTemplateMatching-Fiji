@@ -65,7 +65,7 @@ def MatchTemplate(ImProc_Template, ImProc_Target, Method):
  
 
 
-def FindMinMax(CorrMapCV, Unique=True, MinMax="Max", Score_Threshold=0.5, Tolerance=0.1):
+def FindMinMax(CorrMapCV, Unique=True, MinMax="Max", Score_Threshold=0.5, Tolerance=0):
 	'''
 	Detect Minima(s) or Maxima(s) in the correlation map
 	The function uses for that the MinMaxLoc from opencv for unique detection 
@@ -74,6 +74,7 @@ def FindMinMax(CorrMapCV, Unique=True, MinMax="Max", Score_Threshold=0.5, Tolera
 	- Unique			: True if we look for one global min/max, False if we want local ones
 	- MinMax 			: "Min" if we look for Minima, "Max" if we look for maxima
 	- Score_Threshold 	: in range [0;1] (correlation maps are normalised)
+	- Tolerance 		: Parameters for flood-fill. Not used here so should be set to 0 
 	
 	Returns List of Min/Max : [(X, Y, Coefficient), ... ]
 	'''
@@ -193,7 +194,7 @@ def FindMinMax(CorrMapCV, Unique=True, MinMax="Max", Score_Threshold=0.5, Tolera
 	
 	
 	
-def getHit_Template(ImpTemplate, ImpImage, FlipV=False, FlipH=False, Angles='', Method=5, N_Hit=1, Score_Threshold=0.5, Tolerance=0.1):
+def getHit_Template(ImpTemplate, ImpImage, FlipV=False, FlipH=False, Angles='', Method=5, N_Hit=1, Score_Threshold=0.5, Tolerance=0):
 	'''
 	This function performs :
 	1) Preprocessing of the template (flipping and/or rotation)
@@ -210,7 +211,7 @@ def getHit_Template(ImpTemplate, ImpImage, FlipV=False, FlipH=False, Angles='', 
 	- Method		  : Integer for the template matching method (openCV) 
 	- N_Hit           : Expected number of templates in the image
 	- Score_Threshold : respectively Min/Max value for the detection of Maxima/Minima in the correlation map 
-	- Tolerance       : peak height relative to neighbourhood for min/max detection (only used if N_hit>1)
+	- Tolerance       : peak height relative to neighbourhood for min/max detection (only used if N_hit>1). Set to 0 so that no effect (this is design for flood fill)
 	- Max_Overlap     : Max overlap (Intersection over Union, IoU) between bounding boxes used for NMS
 	
 	It returns a list of hit [ {TemplateName, BBox, Score}, ..., ]

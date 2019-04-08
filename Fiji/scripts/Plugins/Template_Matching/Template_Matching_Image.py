@@ -45,7 +45,7 @@ Win.addChoice("Matching_method", ["Normalised Square Difference","Normalised cro
 Win.addNumericField("Number_of_templates expected", prefs.getInt("N_hit",1),0) 
 Win.addMessage("If more than 1 template expected :") 
 Win.addNumericField("Score_Threshold [0-1]", prefs.getFloat("Score_Threshold",0.5), 2) 
-Win.addNumericField("Min_peak_height relative to neighborhood ([0-1], decrease to get more hits)", prefs.getFloat("Tolerance",0.1), 2) 
+#Win.addNumericField("Min_peak_height relative to neighborhood ([0-1], decrease to get more hits)", prefs.getFloat("Tolerance",0.1), 2) 
 Win.addNumericField("Maximal_overlap between Bounding boxes [0-1]", prefs.getFloat("MaxOverlap",0.4), 2) 
 Win.addMessage("Outputs") 
 Win.addCheckbox("Add_ROI detected to ROI manager", prefs.getInt("AddRoi", True)) 
@@ -64,7 +64,8 @@ if Win.wasOKed():
 	method = Win.getNextChoice() 
 	n_hit  = int(Win.getNextNumber()) 
 	score_threshold = Win.getNextNumber() 
-	tolerance   = Win.getNextNumber() 
+	#tolerance   = Win.getNextNumber()
+	tolerance = 0
 	max_overlap = Win.getNextNumber() 
 	add_roi     = Win.getNextBoolean() 
 	show_table  = Win.getNextBoolean() 
@@ -79,7 +80,7 @@ if Win.wasOKed():
 	prefs.put("Method", method) 
 	prefs.put("N_hit", n_hit) 
 	prefs.put("Score_Threshold", score_threshold) 
-	prefs.put("Tolerance", tolerance) 
+	#prefs.put("Tolerance", tolerance) 
 	prefs.put("MaxOverlap", max_overlap) 
 	prefs.put("AddRoi", add_roi) 
 	prefs.put("ShowTable", show_table) 
@@ -91,8 +92,8 @@ if Win.wasOKed():
 	if score_threshold<0 or score_threshold>1: 
 		raise Exception('The score threshold should be in range [0,1]') 
 		 
-	if tolerance<0 or tolerance>1: 
-		raise Exception('Tolerance should be in range [0,1]') 
+	#if tolerance<0 or tolerance>1: 
+	#	raise Exception('Tolerance should be in range [0,1]') 
 	 
 	if max_overlap<0 or max_overlap>1: 
 		raise Exception('The max overlap should be in range [0,1]') 
@@ -257,5 +258,4 @@ if Win.wasOKed():
 			 
 	# Display result table 
 	if show_table: 
-		
 		Table.show("Results")

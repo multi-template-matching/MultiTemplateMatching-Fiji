@@ -8,14 +8,15 @@
 #@ int       (Label="Expected number of templates", min=1) n_hit 
 #@ String    (visibility="MESSAGE", value="The parameters below are used only if more than 1 template are expected in the image") doc 
 #@ Float     (Label="Score Threshold (0-1)", min=0, max=1, value=0.5, stepSize=0.1) score_threshold 
-#@ Float     (Label="Min peak height relative to neighborhood (0-1, decrease to get more hits)", min=0, max=1, value=0.1, stepSize=0.1) tolerance 
 #@ Float     (Label="Maximal overlap between Bounding boxes (0-1)",min=0, max=1, value=0.4, stepSize=0.1) max_overlap 
 #@ String    (visibility="MESSAGE", value="Output") out 
 #@ Boolean   (Label="Open images (as stack ie images must have identical dimensions)") show_images 
 #@ Boolean   (Label="Add ROI to ROI Manager") add_roi 
 #@ Boolean   (Label="Show result table") show_table 
 '''
-previous field : Boolean   (Label="Display correlation map(s)") show_map 
+previous field : 
+Float     (Label="Min peak height relative to neighborhood (0-1, decrease to get more hits)", min=0, max=1, value=0.1, stepSize=0.1) tolerance 
+Boolean   (Label="Display correlation map(s)") show_map 
  
 Requires ImageJ 1.52i to have the possibility to fill the background while rotating for 16-bit images 
  
@@ -114,6 +115,7 @@ else:
 	
 
 ## Loop over templates for template matching and maxima detection 
+tolerance = 0 # deactivate the flood fill of the max detector
 for i, im_file in enumerate(image_files): 
 		
 	# Get the current image 

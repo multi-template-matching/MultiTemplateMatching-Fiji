@@ -20,7 +20,7 @@ Another possibility would be to have an absolute threshold (relative to the corr
 
 ## Import modules
 #@PrefService prefs
-#@FormatService fs
+#@FormatService fs # to check that the file in the folder are indeed images
 from fiji.util.gui import GenericDialogPlus
 from ij            import IJ
 from ij.gui 	   import Roi
@@ -33,7 +33,7 @@ from Template_Matching.MatchTemplate_Module    import getHit_Template, CornerToC
 from Template_Matching.NonMaximaSupression_Py2 import NMS 
 
 # Initialise benchmark time
-ListTime = []
+#ListTime = []
 
 ## Create GUI
 Win = GenericDialogPlus("Multiple Template Matching")
@@ -44,14 +44,14 @@ Win.addFileField("Rectangular_search_ROI (optional)",  prefs.get("RoiPath","sear
 # Template pre-processing
 Win.addCheckbox("Flip_template_vertically", prefs.getInt("FlipV", False))
 Win.addCheckbox("Flip_template_horizontally", prefs.getInt("FlipH", False))
-Win.addStringField("Rotate template by (,-separated)", prefs.get("Angles", ""))
+Win.addStringField("Rotate template by (comma-separated)", prefs.get("Angles", ""))
 
 # Template matchign parameters
 Win.addChoice("Matching_method", ["Normalised Square Difference","Normalised cross-correlation","Normalised 0-mean cross-correlation"], prefs.get("Method","Normalised 0-mean cross-correlation"))
 Win.addNumericField("Number_of_templates expected", prefs.getInt("N_hit",1),0)
 Win.addMessage("If more than 1 template expected :")
 Win.addNumericField("Score_Threshold [0-1]", prefs.getFloat("Score_Threshold",0.5), 2)
-Win.addNumericField("Min_peak_height relative to neighborhood ([0-1], decrease to get more hits)", prefs.getFloat("Tolerance",0.1), 2)
+#Win.addNumericField("Min_peak_height relative to neighborhood ([0-1], decrease to get more hits)", prefs.getFloat("Tolerance",0.1), 2)
 Win.addNumericField("Maximal_overlap between Bounding boxes [0-1]", prefs.getFloat("MaxOverlap",0.4), 2)
 
 # Outputs
@@ -74,7 +74,8 @@ if Win.wasOKed():
 	method = Win.getNextChoice()
 	n_hit  = int(Win.getNextNumber())
 	score_threshold = Win.getNextNumber()
-	tolerance   = Win.getNextNumber()
+	#tolerance   = Win.getNextNumber()
+	tolerance = 0
 	max_overlap = Win.getNextNumber()
 	show_images = Win.getNextBoolean()
 	add_roi     = Win.getNextBoolean()
@@ -90,7 +91,7 @@ if Win.wasOKed():
 	prefs.put("Method", method)
 	prefs.put("N_hit", n_hit)
 	prefs.put("Score_Threshold", score_threshold)
-	prefs.put("Tolerance", tolerance)
+	#prefs.put("Tolerance", tolerance)
 	prefs.put("MaxOverlap", max_overlap)
 	prefs.put("ShowImages", show_images)	
 	prefs.put("AddRoi", add_roi)
@@ -124,8 +125,8 @@ if Win.wasOKed():
 	if score_threshold<0 or score_threshold>1:
 		raise Exception('The score threshold should be in range [0,1]')
 		
-	if tolerance<0 or tolerance>1:
-		raise Exception('Tolerance should be in range [0,1]')
+	#if tolerance<0 or tolerance>1:
+	#	raise Exception('Tolerance should be in range [0,1]')
 	
 	if max_overlap<0 or max_overlap>1:
 		raise Exception('The max overlap should be in range [0,1]')
@@ -199,7 +200,8 @@ if Win.wasOKed():
 	else: # neither a file path nor a folder path (ie non existing)
 		raise Exception("Image path does not exist")
 	
-	
+	## Initialise Result table for time
+	#TimeTable = ResultsTable()
 	
 	## Loop over templates for template matching and maxima detection 
 	for i, PathIm in enumerate(ListPathImage): 
@@ -215,7 +217,7 @@ if Win.wasOKed():
 			ImpImage = ImpImage.crop()
 		
 		## Start Timer here (dont count opening of the image)
-		Start = time.clock()
+		#Start = time.clock()
 		
 		# Initialise list before looping over templates 
 		Hits_BeforeNMS = [] 
@@ -306,11 +308,15 @@ if Win.wasOKed():
 	
 	
 		## Stop time here
-		Stop = time.clock()
-		Elapsed = Stop - Start # in seconds
-		ListTime.append(Elapsed)
+		#Stop = time.clock()
+		#Elapsed = Stop - Start # in seconds
+		#TimeTable.incrementCounter()
+		#TimeTable.addValue('Time(s)', Elapsed)
+		#ListTime.append(Elapsed)
 	
 	
 	# At the end, display result table
 	if show_table:
 		Table.show("Results")
+	
+	#TimeTable.show("BenchmarkTime")
