@@ -46,7 +46,7 @@ def MatchTemplate(ImProc_Template, ImProc_Target, Method):
 	Function that performs the matching between one template (opencv matrix) and an image (ImagePlus)  
 	ImProc_Template : ImageProcessor object of the template image   
 	ImProc_Target	: ImageProcessor object of the image in which we search the template   
-	Method		: Integer for the tempate matching method (openCV)  
+	Method		    : Integer for the template matching method (openCV)  
 	return the correlation map 
 	'''
 	# Convert to image matrix, 8-bit (if both are 8-bit) or 32-bit 
@@ -173,13 +173,13 @@ def FindMinMax(CorrMapCV, Unique=True, MinMax="Max", Score_Threshold=0.5, Tolera
 		#print Polygon.npoints," maxima detected in this score map"
 		if Polygon.npoints!=0: # Check that there are some points indeed. Otherwise Polygon.xpoints and ypoints are anyway initialised with [0,0,0,0] even if Npoints=0 !
 			
-			for X,Y in zip(Polygon.xpoints, Polygon.ypoints):
+			for i in range(Polygon.npoints): # dont directly loop on xpoints and ypoint since initialised with [0,0,0,0] ie less than 4 points we get some 0,0 coordinates
 			
 				# Get point coordinates
-				#X, Y = point.getX(), point.getY()
+				X, Y = Polygon.xpoints[i], Polygon.ypoints[i]
 
 				# Get Coeff
-				Coeff = CorrMapThresh.getPixel(int(X), int(Y))
+				Coeff = CorrMapThresh.getPixel(X, Y)
 				Coeff = Float.intBitsToFloat(Coeff) # require java.lang.Float
 				
 				# Revert the score again if we were detecting minima initially (since found as maxima of a reverted correlation map)
