@@ -42,37 +42,33 @@ Roi.remove;
 n = nSlices;
 nRoi_old = roiManager("count"); // Roi of the 1st template matching
 for (i=1; i<=n; i++) {
-
-	print("i",i);
-
+
 	Start_Temp2 = getTime();
 	
 	// Isolate slice from stack (to perform the second template matching with a custom search ROI for that slice)
 	selectImage(image); //important here to select back the image when entering a new iteration, during looping the slice is selected
 	setSlice(i);
-	run("Duplicate...", "title=Slice"); // The isolated slice has for title "Slice"
+	Roi.remove;
+	run("Duplicate...", "title=Slice_"+i); // The isolated slice has for title "Slice"
 	
 	// Set search ROI on isolated slice
 	roiManager("select", i-1); // i-1 since ROI manager starts at 0
 	Roi.getBounds(x, y, width, height);
 	makeRectangle(x, y, width, height);
-	print(x,y,width,height);
+	//print(x,y,width,height);
 
 	// Run template matching on slice with search ROI
-	run("Template Matching Image", "template=" + Temp2_title + " image=Slice flip_template_vertically rotate=[] matching_method=[Normalised 0-mean cross-correlation] number_of_templates=2 score_threshold=0.50 min_peak_height=0 maximal_overlap=0.25 add_roi");
+	run("Template Matching Image", "template=" + Temp2_title + " image=Slice_" + i +" flip_template_vertically rotate=[] matching_method=[Normalised 0-mean cross-correlation] number_of_templates=2 score_threshold=0.50 min_peak_height=0 maximal_overlap=0.25 add_roi");
 	
 	// Close hidden Slice image
-	selectImage("Slice");
-	close();
+	//selectImage("Slice");
+	//close();
 	
 	// Rename and Set Z-position of the last found ROI - TO FIX : Currently assume that the matching found all object. Rather look at the difference of count
 	nRoi_new = roiManager("count");
-	Diff = nRoi_new - nRoi_old;
-	print("Difference of Roi",Diff);
+	
 	for (j=1; j<=nRoi_new-nRoi_old; j++) {
-		print("j",j);
 
-		// Eye 1
 		roiManager("select", nRoi_new-j);
 		run("Properties... ", "position="+i); // Set slice position
 		InitName = call("ij.plugin.frame.RoiManager.getName", nRoi_new-j);
