@@ -10,8 +10,8 @@
 #@ImagePlus (Label="Image") image
 
 // Show all ROI and associate with Slices 
-roiManager("Show All");
-roiManager("Associate", "true");
+//roiManager("Show All");
+//roiManager("Associate", "true");
 
 // Get image names
 selectImage(temp1);
@@ -58,13 +58,13 @@ for (i=1; i<=n; i++) {
 	//print(x,y,width,height);
 
 	// Run template matching on slice with search ROI
-	run("Template Matching Image", "template=" + Temp2_title + " image=Slice_" + i +" flip_template_vertically rotate=[] matching_method=[Normalised 0-mean cross-correlation] number_of_templates=2 score_threshold=0.50 min_peak_height=0 maximal_overlap=0.25 add_roi");
+	run("Template Matching Image", "template=" + Temp2_title + " image=Slice_" + i +" flip_template_vertically rotate=[] matching_method=[Normalised 0-mean cross-correlation] number_of_templates=2 score_threshold=0.50 min_peak_height=0 maximal_overlap=0.25 add_roi show_result");
 	
 	// Close hidden Slice image
-	//selectImage("Slice");
+	//selectImage("Slice_"+i);
 	//close();
 	
-	// Rename and Set Z-position of the last found ROI - TO FIX : Currently assume that the matching found all object. Rather look at the difference of count
+	// Rename and Set Z-position of the last found ROI
 	nRoi_new = roiManager("count");
 	
 	for (j=1; j<=nRoi_new-nRoi_old; j++) {
