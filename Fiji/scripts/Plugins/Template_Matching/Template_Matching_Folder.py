@@ -26,14 +26,11 @@ from ij            import IJ
 from ij.gui 	   import Roi
 from os			   import listdir
 from os.path 	   import join, isfile, isdir
-import time
+#import time
 
 ## Home-Made module 
 from Template_Matching.MatchTemplate_Module    import getHit_Template, CornerToCenter 
 from Template_Matching.NonMaximaSupression_Py2 import NMS 
-
-# Initialise benchmark time
-#ListTime = []
 
 ## Create GUI
 Win = GenericDialogPlus("Multiple Template Matching")
@@ -44,7 +41,7 @@ Win.addFileField("Rectangular_search_ROI (optional)",  prefs.get("RoiPath","sear
 # Template pre-processing
 Win.addCheckbox("Flip_template_vertically", prefs.getInt("FlipV", False))
 Win.addCheckbox("Flip_template_horizontally", prefs.getInt("FlipH", False))
-Win.addStringField("Rotate template by (comma-separated)", prefs.get("Angles", ""))
+Win.addStringField("Rotate template by ..(comma-separated)", prefs.get("Angles", ""))
 
 # Template matchign parameters
 Win.addChoice("Matching_method", ["Normalised Square Difference","Normalised cross-correlation","Normalised 0-mean cross-correlation"], prefs.get("Method","Normalised 0-mean cross-correlation"))
@@ -59,8 +56,10 @@ Win.addMessage("Outputs")
 Win.addCheckbox("Open_images as a stack (must have identical sizes)", prefs.getInt("ShowImages", True))
 Win.addCheckbox("Add_ROI detected  to ROI Manager", prefs.getInt("AddRoi", True))
 Win.addCheckbox("Show_result table", prefs.getInt("ShowTable", False))
-Win.addMessage("If you use this plugin please cite : xxx")
-Win.addHelp("https://github.com/acquifer/RoiDetection/wiki")
+Win.addMessage("""If you use this plugin please cite :
+Laurent SV Thomas, Jochen Gehrig
+bioRxiv 619338; doi: https://doi.org/10.1101/619338""")
+Win.addHelp("https://github.com/LauLauThom/MultiTemplateMatching/wiki")
 
 Win.showDialog()
 
@@ -312,7 +311,6 @@ if Win.wasOKed():
 		#Elapsed = Stop - Start # in seconds
 		#TimeTable.incrementCounter()
 		#TimeTable.addValue('Time(s)', Elapsed)
-		#ListTime.append(Elapsed)
 	
 	
 	# At the end, display result table

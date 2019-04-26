@@ -1,34 +1,21 @@
 '''
-previous parameter removed : 
-Boolean (Label="Display correlation map(s)") show_map # Complicated, showing several correlation map with each variation of the template 
-At the gaps above, removed because it was displayed when macro recorded 
-String  (visibility="MESSAGE", value="The parameters below are used only if more than 1 template are expected in the image") doc 
-String  (visibility="MESSAGE", value="Output") out 
- 
-Requires ImageJ 1.52i to have the possibilityy to fill the background while rotating for 16-bit images 
+Requires min ImageJ 1.52i to have the possibilityy to fill the background while rotating for 16-bit images 
+Not functionnal with ImageJ 1.52n du to a bug, fixed in 1.52o
  
 FIJI macro  to do template matching 
 input : 
 - template : ImagePlus for the template 
 - image    : ImagePlus for the target image 
 ie this macro search for one template (with eventual flipped/rotated version)into one target image. 
-The 2 images should be already open in Fiji. 
+The 2 images should be already opened in Fiji. 
  
 First of all, additionnal versions of the template are generated (flip+rotation) 
 For the resulting list of templates the search is carried out and results in a list of correlation maps 
  
 Minima/maxima in the correlation map are detected, followed by Non-Maxima Supression in case of multiple correlation map/templates 
  
-The multifile input is not yet macro recordable. An alternative is to use a folder input and to process the content of the folder (but not as flexible) 
- 
-TO DO :  
-- use steerable tempalte matching see steerable detector BIG Lausanne 
- 
- 
-- Method limited to normalised method to have correlation map in range 0-1 : easier to apply a treshold.  
-Otherwise normalising relative to maxima of each correlation map is not good since this result in having the global maxima to always be one,  
-eventhough its correlation value was not one. 
-Another possibility would be to have an absolute threshold (relative to the correlation score) and a relative threshold (relative to the maxima of this particular map)   
+- matchTemplate Method limited to normalised method to have correlation map in range 0-1 : easier to apply a treshold.  
+
 '''
 #import time
 #@PrefService prefs 
@@ -40,7 +27,7 @@ Win.addImageChoice("Template", prefs.get("Template","Choice"))
 Win.addImageChoice("Image", prefs.get("Image", "Choice")) 
 Win.addCheckbox("Flip_template_vertically", prefs.getInt("FlipV", False)) 
 Win.addCheckbox("Flip_template_horizontally", prefs.getInt("FlipH", False)) 
-Win.addStringField("Rotate template by (,-separated)", prefs.get("Angles", "")) 
+Win.addStringField("Rotate template by ..(comma-separated)", prefs.get("Angles", "")) 
 Win.addChoice("Matching_method", ["Normalised Square Difference","Normalised cross-correlation","Normalised 0-mean cross-correlation"], prefs.get("Method","Normalised 0-mean cross-correlation")) 
 Win.addNumericField("Number_of_templates expected", prefs.getInt("N_hit",1),0) 
 Win.addMessage("If more than 1 template expected :") 
@@ -50,8 +37,10 @@ Win.addNumericField("Maximal_overlap between Bounding boxes [0-1]", prefs.getFlo
 Win.addMessage("Outputs") 
 Win.addCheckbox("Add_ROI detected to ROI manager", prefs.getInt("AddRoi", True)) 
 Win.addCheckbox("Show_result table", prefs.getInt("ShowTable", False)) 
-Win.addMessage("If you use this plugin please cite : xxx") 
-Win.addHelp("https://github.com/acquifer/RoiDetection/wiki") 
+Win.addMessage("""If you use this plugin please cite :
+Laurent SV Thomas, Jochen Gehrig
+bioRxiv 619338; doi: https://doi.org/10.1101/619338""") 
+Win.addHelp("https://github.com/LauLauThom/MultiTemplateMatching/wiki") 
  
 Win.showDialog() 
  

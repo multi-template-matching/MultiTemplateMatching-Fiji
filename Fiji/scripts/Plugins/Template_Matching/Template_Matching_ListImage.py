@@ -12,13 +12,14 @@
 #@ String    (visibility="MESSAGE", value="Output") out 
 #@ Boolean   (Label="Open images (as stack ie images must have identical dimensions)") show_images 
 #@ Boolean   (Label="Add ROI to ROI Manager") add_roi 
-#@ Boolean   (Label="Show result table") show_table 
+#@ Boolean   (Label="Show result table") show_table
+#@ String    (visibility="MESSAGE", value="<html><center>If you use this plugin please cite:<br>Laurent SV Thomas, Jochen Gehrig<br>bioRxiv 619338; doi: https://doi.org/10.1101/619338</center></html>") disclaimer 
 '''
 previous field : 
 Float     (Label="Min peak height relative to neighborhood (0-1, decrease to get more hits)", min=0, max=1, value=0.1, stepSize=0.1) tolerance 
 Boolean   (Label="Display correlation map(s)") show_map 
  
-Requires ImageJ 1.52i to have the possibility to fill the background while rotating for 16-bit images 
+Requires min ImageJ 1.52i to have the possibility to fill the background while rotating for 16-bit images 
  
 FIJI macro  to do template matching 
 input : 
