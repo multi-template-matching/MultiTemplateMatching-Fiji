@@ -22,15 +22,22 @@ TO DO :
 # Python
 from __future__		import division 
 
-# OpenCV
-from org.bytedeco.javacpp.opencv_imgproc import matchTemplate, threshold, CV_THRESH_TOZERO
-from org.bytedeco.javacpp.opencv_core	 import Mat, Scalar, Point, minMaxLoc, subtract # UNUSED normalize, NORM_MINMAX, CV_8UC1, CV_32FC1
-from org.bytedeco.javacpp				 import DoublePointer 
-
 # ImageJ
 from ij					import IJ,ImagePlus, ImageStack 
 from ij.plugin.filter	import MaximumFinder
-#from ij.gui			import Roi, PointRoi 
+#from ij.gui			import Roi, PointRoi
+
+if IJ.getFullVersion()<"1.52o":
+	IJ.error("Please update ImageJ to min v1.52o. Help>Update ImageJ...")
+
+# OpenCV
+try:
+	from org.bytedeco.javacpp.opencv_imgproc import matchTemplate, threshold, CV_THRESH_TOZERO
+	from org.bytedeco.javacpp.opencv_core	 import Mat, Scalar, Point, minMaxLoc, subtract # UNUSED normalize, NORM_MINMAX, CV_8UC1, CV_32FC1
+	from org.bytedeco.javacpp				 import DoublePointer 
+
+except:
+	IJ.error("Missing OpenCV dependencies. Make sure to activate 'IJ-OpenCV plugins' update site.")
 
 
 # Java
