@@ -15,11 +15,14 @@ _Laurent SV Thomas, Jochen Gehrig_
 _bioRxiv 619338; doi: https://doi.org/10.1101/619338_
 
 ## Related resources
-
+### IJ-OpenCV
 This plugin is using OpenCV in Fiji thanks to [IJ-OpenCV](https://github.com/joheras/IJ-OpenCV).
 
 see also:  
 _Domínguez, César, Jónathan Heras, and Vico Pascual. "IJ-OpenCV: Combining ImageJ and OpenCV for processing images in biomedicine." Computers in biology and medicine 84 (2017): 189-194._
+
+### Multi-Template-Matching as a python package
+We also distribute a python package available on [PyPI](https://pypi.org/project/Multi-Template-Matching/).    
 
 ## Licence
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />The content of this wiki (including illustrations and videos) is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
