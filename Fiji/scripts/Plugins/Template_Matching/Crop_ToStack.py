@@ -11,7 +11,11 @@ from ij import ImageStack, ImagePlus
 
 RM = RoiManager.getRoiManager()
 n = RM.getCount()
-Stack = ImageStack(240, 240)
+
+Roi1 = RM.getRoi(0)
+Width  = int(Roi1.getFloatWidth())
+Height = int(Roi1.getFloatHeight())
+Stack = ImageStack(Width, Height)
 
 for i in range(n):
 	roi = RM.getRoi(i)
