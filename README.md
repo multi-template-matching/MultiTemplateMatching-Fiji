@@ -3,7 +3,7 @@ Template matching is an algorithm that can be used for object-detections in imag
 The algorithm computes the probability to find one (or several) template images provided by the user into a larger image.  
 For more theoretical details, see the section [Template Matching : How does it work ?](https://github.com/LauLauThom/MultiTemplateMatching/wiki/Template-Matching%2C-How-does-it-work).  
 
-You can find a similar implementation in KNIME in this [repo](https://github.com/LauLauThom/MultipleTemplateMatching-KNIME).
+You can find a similar implementation in KNIME in this [repo](https://github.com/multi-template-matching/MultipleTemplateMatching-KNIME).
 
 
 
@@ -37,30 +37,30 @@ Digital Biomedical Imaging Systems AG
 Freiburger Str. 3  
 75179 Pforzheim  
 
-<img src="https://github.com/LauLauThom/MultiTemplateMatching/blob/master/Images/Acquifer_Logo_60k_cmyk_300dpi.png" alt="Fish" width="400" height="80">     
+<img src="https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/blob/master/Images/Acquifer_Logo_60k_cmyk_300dpi.png" alt="Fish" width="400" height="80">     
 
 ## Funding
 This project has received funding from the European Union’s Horizon 2020 research and innovation program under the Marie Sklodowska-Curie grant agreement No 721537 ImageInLife.  
 
 <p float="left">
-<img src="https://github.com/LauLauThom/MultiTemplateMatching/blob/master/Images/ImageInlife.png" alt="ImageInLife" width="130" height="100">
-<img src="https://github.com/LauLauThom/MultiTemplateMatching/blob/master/Images/MarieCurie.jpg" alt="MarieCurie" width="130" height="130">
+<img src="https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/blob/master/Images/ImageInlife.png" alt="ImageInLife" width="130" height="100">
+<img src="https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/blob/master/Images/MarieCurie.jpg" alt="MarieCurie" width="130" height="130">
 </p>
 
 
 ## Examples
 
 ### Zebrafish head detection
-<img src="https://github.com/LauLauThom/MultiTemplateMatching/blob/master/Images/FishRoi.JPG" alt="Fish" width="300" height="300"> 
-<img src="https://github.com/LauLauThom/MultiTemplateMatching/blob/master/Images/Montage_Head.png" alt="MontageHead" width="500" height="300">
+<img src="https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/blob/master/Images/FishRoi.JPG" alt="Fish" width="300" height="300"> 
+<img src="https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/blob/master/Images/Montage_Head.png" alt="MontageHead" width="500" height="300">
 
 Dataset available on Zenodo  
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2650162.svg)](https://doi.org/10.5281/zenodo.2650162)
 
 
 ### Medaka larvae detections
-<img src="https://github.com/LauLauThom/MultiTemplateMatching/blob/master/Images/EggDetected.png" alt="MedakaEgg" width="250" height="250">
-<img src="https://github.com/LauLauThom/MultiTemplateMatching/blob/master/Images/MontageEgg.png" alt="MontageEgg" width="650" height="250">  
+<img src="https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/blob/master/Images/EggDetected.png" alt="MedakaEgg" width="250" height="250">
+<img src="https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/blob/master/Images/MontageEgg.png" alt="MontageEgg" width="650" height="250">  
 
 Image courtesy Jakob Gierten (COS, Heidelberg)  
 Dataset available on Zenodo    
