@@ -1,21 +1,21 @@
 '''
-FIJI macro  to do template matching
-input :
-- template : Path to template image or folder of template images
+Object recognition using one or multiple template images 
+this plugin search for some template (with eventual flipped/rotated version) into some target image. 
+
+input : 
+- template : Path to template image or folder of template images 
 - image    : Path to image or folder of images in which to look for the template
 
-First of all, additionnal versions of the template are generated (flip+rotation)
-For the resulting list of templates the search is carried out and results in a list of correlation maps
+First, additionnal versions of the template are generated (flip+rotation) if selected
+Then each template is searched in the target image. This yield as set of correlation maps 
+ 
+Minima/maxima in the correlation maps are detected, followed by Non-Maxima Supression when several object are explected in the target image
+- matchTemplate Method limited to normalised method to have correlation map in range 0-1 : easier to apply a treshold.  
 
-Minima/maxima in the correlation map are detected, followed by Non-Maxima Supression in case of multiple correlation map/templates
+The search region can be limited to a rectangular ROI, that is provided as a .roi file
 
-TO DO : 
-- use steerable template matching see steerable detector BIG Lausanne
-
-- Method limited to normalised method to have correlation map in range 0-1 : easier to apply a treshold. 
-Otherwise normalising relative to maxima of each correlation map is not good since this result in having the global maxima to always be one, 
-eventhough its correlation value was not one.
-Another possibility would be to have an absolute threshold (relative to the correlation score) and a relative threshold (relative to the maxima of this particular map)  
+Requirements:
+- IJ-OpenCV update site
 '''
 
 ## Import modules
@@ -59,7 +59,7 @@ Win.addCheckbox("Show_result table", prefs.getInt("ShowTable", False))
 Win.addMessage("""If you use this plugin please cite :
 Laurent SV Thomas, Jochen Gehrig
 bioRxiv 619338; doi: https://doi.org/10.1101/619338""")
-Win.addHelp("https://github.com/LauLauThom/MultiTemplateMatching/wiki")
+Win.addHelp("https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/wiki")
 
 Win.showDialog()
 

@@ -1,21 +1,22 @@
 '''
-Requires min ImageJ 1.52i to have the possibilityy to fill the background while rotating for 16-bit images 
-Not functionnal with ImageJ 1.52n du to a bug, fixed in 1.52o
- 
-FIJI macro  to do template matching 
-input : 
-- template : ImagePlus for the template 
-- image    : ImagePlus for the target image 
-ie this macro search for one template (with eventual flipped/rotated version)into one target image. 
+Object recognition using one or multiple template images 
+this plugin search for one template (with eventual flipped/rotated version) into one target image. 
 The 2 images should be already opened in Fiji. 
+
+input : 
+- template : ImagePlus of the object to search in the target image  
+- image    : ImagePlus or Stack 
+
+First, additionnal versions of the template are generated (flip+rotation) if selected
+Then each template is searched in the target image. This yield as set of correlation maps 
  
-First of all, additionnal versions of the template are generated (flip+rotation) 
-For the resulting list of templates the search is carried out and results in a list of correlation maps 
- 
-Minima/maxima in the correlation map are detected, followed by Non-Maxima Supression in case of multiple correlation map/templates 
- 
+Minima/maxima in the correlation maps are detected, followed by Non-Maxima Supression when several object are explected in the target image
 - matchTemplate Method limited to normalised method to have correlation map in range 0-1 : easier to apply a treshold.  
 
+The search region can be limited to a rectangular ROI, that is drawn on the image/stack before execution of the plugin.
+
+Requirements:
+- IJ-OpenCV update site
 '''
 #import time
 #@PrefService prefs 
@@ -40,7 +41,7 @@ Win.addCheckbox("Show_result table", prefs.getInt("ShowTable", False))
 Win.addMessage("""If you use this plugin please cite :
 Laurent SV Thomas, Jochen Gehrig
 bioRxiv 619338; doi: https://doi.org/10.1101/619338""") 
-Win.addHelp("https://github.com/LauLauThom/MultiTemplateMatching/wiki") 
+Win.addHelp("https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/wiki") 
  
 Win.showDialog() 
  
@@ -218,7 +219,9 @@ if Win.wasOKed():
 			# Create detected ROI 
 			roi = Roi(*hit['BBox']) 
 			roi.setName(hit['TemplateName']) 
-			roi.setPosition(i) # set ROI Z-position 
+			roi.setPosition(i) # set ROI Z-position
+			#roi.setProperty("class", hit["TemplateName"])
+			
 			image.setSlice(i) 
 			image.setRoi(roi) 
 			 

@@ -1,23 +1,12 @@
 '''
-
-This script contains the function to make template matching between a template and an image. 
-This implementation is compatible with the smart imaging but also with the macro version (in this case the GUI is done with script parameters) 
+This nodule contains a set of functions for multi-template-matching between a template and an image/stack. 
 The detected area will be displayed as a rectangular ROI on the image, and this ROI will be added to the ROI manager 
-The found area will also be saved in a subfolder "Found" of the image folder if the option is ticked. 
- 
-A limited search area can be provided by adding a ROI to the ROI manager. This ROI must be the first in the ROI manager (selected by position). It will be rename to searchROI 
-This is especially important when running the macro several time : delete the previously detected ROI 
-There should not be any other ROI in addition ot this search ROI otherwiose the displayed ROI will be mispositionned in the resulting stack 
- 
-NB : 
-- all target images should have the same size since they are appended to a stack 
  
 Requirements : 
 - IJ-OpenCV (from the updater) 
  
 TO DO : 
 - Images with overlay in Stack : change to the easier ij.plugin.ImagesToStack that use a list to make the stack. No need to precise the size.. 
-- Make a function that generate and return the GUI object, and a second one that opens this GUI (could be used to reuse the GUI for the non smart imaging): Maybe once we use the Pref service instead of file	
  '''
 # Python
 from __future__		import division 

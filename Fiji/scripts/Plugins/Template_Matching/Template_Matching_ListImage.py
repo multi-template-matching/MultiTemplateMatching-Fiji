@@ -18,42 +18,38 @@
 previous field : 
 Float     (Label="Min peak height relative to neighborhood (0-1, decrease to get more hits)", min=0, max=1, value=0.1, stepSize=0.1) tolerance 
 Boolean   (Label="Display correlation map(s)") show_map 
- 
-Requires min ImageJ 1.52i to have the possibility to fill the background while rotating for 16-bit images 
- 
-FIJI macro  to do template matching 
+
+Object recognition using one or multiple template images 
+ie this macro search for N templates (with eventual flipped/rotated version) into L target images. 
+
 input : 
 - template_files : list of template path 
 - image_files    : list of image path for which we want to search a template 
-ie this macro search for N templates (with eventual flipped/rotated version) into L target images. 
+
+First, additionnal versions of the template are generated (flip+rotation) if selected
+Then each template is searched in the target image. This yield as set of correlation maps 
  
- 
-First of all, additionnal versions of the template are generated (flip+rotation) 
-For the resulting list of templates the search is carried out and results in a list of correlation maps 
- 
-Minima/maxima in the correlation map are detected, followed by Non-Maxima Supression in case of multiple correlation map/templates 
- 
+Minima/maxima in the correlation maps are detected, followed by Non-Maxima Supression when several object are explected in the target image
+- matchTemplate Method limited to normalised method to have correlation map in range 0-1 : easier to apply a treshold.  
+
+The search region can be limited to a rectangular ROI, that is provided as a .roi file.
+
+Requirements:
+- IJ-OpenCV update site
+
  
 ## TO DO :  
 - order of the column in result table 
- 
-- use steerable tempalte matching see steerable detector BIG Lausanne 
- 
- 
+  
 ## NB :  
-- If open_images is true, the images must have the same dimensions 
+- If show_images is true, the images must have the same dimensions 
  
-- The multifile input is not yet macro recordable. An alternative is to use a folder input and to process the content of the folder (but not as flexible) 
- 
-- (currently no search ROi so not applicable) Delete the previous ROI for every new Run otherwise 1st ROI is used to limit the search 
- 
+- The multifile input is not yet macro recordable. An alternative is to use the folder input version 
+  
 - Method limited to normalised method to have correlation map in range 0-1 : easier to apply a treshold.  
 Otherwise normalising relative to maxima of each correlation map is not good since this result in having the global maxima to always be one,  
-eventhough its correlation value was not one. 
-Another possibility would be to have an absolute threshold (realtive to the correlation score) and a relative threshold (relative to the maxima of this particular map)   
- 
-The multifile input is not yet macro recordable. An alternative is to use a folder input and to process the content of the folder (but not as flexible) 
-'''
+eventhough its correlation value was not one.    
+ '''
 ### IMPORT ###
 import time 	  # for benchmark
 from ij import IJ # ImageJ1 import
@@ -131,7 +127,7 @@ for i, im_file in enumerate(image_files):
 		ImpImage = ImpImage.crop()
 	
 	## Start Timer here (dont count opening of the image)
-	Start = time.clock()
+	#Start = time.clock()
 	
 	# Initialise list before looping over templates 
 	Hits_BeforeNMS = [] 
@@ -173,9 +169,9 @@ for i, im_file in enumerate(image_files):
 	
 	
 	## Stop time here (we dont benchmark display time)
-	Stop = time.clock()
-	Elapsed = Stop - Start # in seconds
-	ListTime.append(Elapsed)
+	#Stop = time.clock()
+	#Elapsed = Stop - Start # in seconds
+	#ListTime.append(Elapsed)
 	 
 	
 	
