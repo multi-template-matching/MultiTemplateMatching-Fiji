@@ -2,7 +2,7 @@
 '''
 From a list of rectangular ROI associated to some slices of a stack in Fiji
 Crop each Roi from the image slice and append them to a stack
-The size of the stack should be adjusted to match the ROI dimensions before running the macro
+The size of the stack is read from the first ROI
 
 NB : if using with MultiTemplate Matching, using a non square template, the rotation yield different dimensiosn that do not fit in the stack
 '''
@@ -12,6 +12,7 @@ from ij import ImageStack, ImagePlus
 RM = RoiManager.getRoiManager()
 n = RM.getCount()
 
+# get ROI dimension by reading first one
 Roi1 = RM.getRoi(0)
 Width  = int(Roi1.getFloatWidth())
 Height = int(Roi1.getFloatHeight())
