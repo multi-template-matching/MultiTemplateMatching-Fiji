@@ -2,7 +2,10 @@
  * This macro allows to do a 2-step template matching
  * The first template allows to find an object and the second template finds a sub-object within the previously found object
  * Therefore the second template must be smaller than the first one
- * Both detection (1st and 2nd template) are returned in the ROI manager
+ * Both template images and the image to search should be open in fiji.
+ * Both detection (1st and 2nd template) are returned in the ROI manager.
+ *  
+ * NB : Make sure the ROI Manager is empty before running this macro
  * 
  */
 #@ImagePlus (Label="Template1") temp1
@@ -28,11 +31,9 @@ Image_title = getTitle();
 
 // Call 1st template matching
 //Start_Temp1 = getTime();
-run("Template Matching Image", "template=" + Temp1_title + " image=" + Image_title + " rotate=[] matching_method=[Normalised 0-mean cross-correlation] number_of_templates=1 score_threshold=0.50 min_peak_height=0.10 maximal_overlap=0.25 add_roi");
-
-
+run("Template Matching Image", "template=" + Temp1_title + " image=" + Image_title + " rotate=[] matching_method=[Normalised 0-mean cross-correlation] number_of_templates=1 score_threshold=0.50 maximal_overlap=0.25 add_roi");
 //Stop_Temp1 = getTime();
-//AverageTimeTemp1 = (Stop_Temp1 - Start_Temp1)/96;
+//AverageTimeTemp1 = (Stop_Temp1 - Start_Temp1)/96; // Because we want to have the average time per image, and the first template matching is a batch-operation (one call for all slices) we divide by the number of images
 
 // Loop over stack
 //print("Average time per image(ms)");
@@ -43,13 +44,13 @@ n = nSlices;
 nRoi_old = roiManager("count"); // Roi of the 1st template matching
 for (i=1; i<=n; i++) {
 
-	Start_Temp2 = getTime();
+	//Start_Temp2 = getTime();
 	
 	// Isolate slice from stack (to perform the second template matching with a custom search ROI for that slice)
 	selectImage(image); //important here to select back the image when entering a new iteration, during looping the slice is selected
 	setSlice(i);
 	Roi.remove;
-	run("Duplicate...", "title=Slice_"+i); // The isolated slice has for title "Slice"
+	run("Duplicate...", "title=Slice_"+i); // The isolated slice has for title "Slice_i"
 	
 	// Set search ROI on isolated slice
 	roiManager("select", i-1); // i-1 since ROI manager starts at 0
@@ -58,7 +59,7 @@ for (i=1; i<=n; i++) {
 	//print(x,y,width,height);
 
 	// Run template matching on slice with search ROI
-	run("Template Matching Image", "template=" + Temp2_title + " image=Slice_" + i +" flip_template_vertically rotate=[] matching_method=[Normalised 0-mean cross-correlation] number_of_templates=2 score_threshold=0.50 min_peak_height=0 maximal_overlap=0.25 add_roi show_result");
+	run("Template Matching Image", "template=" + Temp2_title + " image=Slice_" + i +" flip_template_vertically rotate=[] matching_method=[Normalised 0-mean cross-correlation] number_of_templates=2 score_threshold=0.50 maximal_overlap=0.25 add_roi show_result");
 	
 	// Close hidden Slice image
 	//selectImage("Slice_"+i);
