@@ -145,6 +145,10 @@ if Win.wasOKed():
 	imageBis   = image.duplicate() # duplicate full stack to be sure to not mess around with ROI display
 	
 	for i in xrange(1,nSlice+1): 
+		
+		if IJ.escapePressed():
+			IJ.resetEscape() # for next call
+			raise KeyboardInterrupt("Escape was pressed")
 		 
 		imageBis.setSlice(i) # for stacks (important for both with/without searchRoi) for single image no adversial effect 
 		 

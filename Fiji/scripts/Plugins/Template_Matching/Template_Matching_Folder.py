@@ -202,8 +202,12 @@ if Win.wasOKed():
 	## Initialise Result table for time
 	#TimeTable = ResultsTable()
 	
-	## Loop over templates for template matching and maxima detection 
+	## Loop over images for template matching and maxima detection 
 	for i, PathIm in enumerate(ListPathImage): 
+		
+		if IJ.escapePressed():
+			IJ.resetEscape() # for next call
+			raise KeyboardInterrupt("Escape was pressed")
 			
 		# Get the current image 
 		ImpImage = IJ.openImage(PathIm) 

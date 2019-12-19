@@ -114,6 +114,10 @@ else:
 ## Loop over templates for template matching and maxima detection 
 tolerance = 0 # deactivate the flood fill of the max detector
 for i, im_file in enumerate(image_files): 
+	
+	if IJ.escapePressed():
+		IJ.resetEscape() # for next call
+		raise KeyboardInterrupt("Escape was pressed")
 		
 	# Get the current image 
 	PathIm   = im_file.getPath() 
