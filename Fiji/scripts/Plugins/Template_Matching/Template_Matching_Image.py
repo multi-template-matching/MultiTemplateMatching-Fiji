@@ -39,8 +39,9 @@ Win.addMessage("Outputs")
 Win.addCheckbox("Add_ROI detected to ROI manager", prefs.getInt("AddRoi", True)) 
 Win.addCheckbox("Show_result table", prefs.getInt("ShowTable", False)) 
 Win.addMessage("""If you use this plugin please cite :
-Laurent SV Thomas, Jochen Gehrig
-bioRxiv 619338; doi: https://doi.org/10.1101/619338""") 
+Thomas, L.S.V., Gehrig, J. 
+Multi-template matching: a versatile tool for object-localization in microscopy images. 
+BMC Bioinformatics 21, 44 (2020). https://doi.org/10.1186/s12859-020-3363-7""") 
 Win.addHelp("https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/wiki") 
  
 Win.showDialog() 

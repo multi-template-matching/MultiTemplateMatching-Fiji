@@ -13,7 +13,7 @@
 #@ Boolean   (Label="Open images (as stack ie images must have identical dimensions)") show_images 
 #@ Boolean   (Label="Add ROI to ROI Manager") add_roi 
 #@ Boolean   (Label="Show result table") show_table
-#@ String    (visibility="MESSAGE", value="<html><center>If you use this plugin please cite:<br>Laurent SV Thomas, Jochen Gehrig<br>bioRxiv 619338; doi: https://doi.org/10.1101/619338</center></html>") disclaimer 
+#@ String    (visibility="MESSAGE", value="<html><center>If you use this plugin please cite:<brThomas, L.S.V., Gehrig, J.<br>Multi-template matching: a versatile tool for object-localization in microscopy images.<br>BMC Bioinformatics 21, 44 (2020)<br>https://doi.org/10.1186/s12859-020-3363-7</center></html>") disclaimer 
 '''
 previous field : 
 Float     (Label="Min peak height relative to neighborhood (0-1, decrease to get more hits)", min=0, max=1, value=0.1, stepSize=0.1) tolerance 
