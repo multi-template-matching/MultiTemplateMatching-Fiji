@@ -10,9 +10,8 @@ You can find a similar implementation in KNIME in this [repo](https://github.com
 ## Citation
 If you use this implementation for your research, please cite:
   
-_Multi-Template Matching: a versatile tool for object-localization in microscopy images;_  
-_Laurent SV Thomas, Jochen Gehrig_  
-_bioRxiv 619338; doi: https://doi.org/10.1101/619338_
+Thomas, L.S.V., Gehrig, J. _Multi-template matching: a versatile tool for object-localization in microscopy images._     
+BMC Bioinformatics 21, 44 (2020). https://doi.org/10.1186/s12859-020-3363-7
 
 ## Related resources
 ### IJ-OpenCV
