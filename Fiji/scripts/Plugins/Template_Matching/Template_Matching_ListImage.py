@@ -5,10 +5,10 @@
 #@ Boolean   (Label="Flip template horizontally") fliph 
 #@ String    (Label="Additional rotation angles separated by ," ,required=False) angles 
 #@ String    (Label="Matching method",choices={"Normalised Square Difference", "Normalised cross-correlation", "Normalised 0-mean cross-correlation"}, value="Normalised 0-mean cross-correlation") method 
-#@ int       (Label="Expected number of objects", min=1) n_hit 
+#@ Integer   (Label="Expected number of objects", min=1) n_hit 
 #@ String    (visibility="MESSAGE", value="The parameters below are used only if more than 1 template are expected in the image") doc 
-#@ Float     (Label="Score Threshold (0-1)", min=0, max=1, value=0.5, stepSize=0.1) score_threshold 
-#@ Float     (Label="Maximal overlap between Bounding boxes (0-1)",min=0, max=1, value=0.4, stepSize=0.1) max_overlap 
+#@ Float     (Label="Score Threshold", min=0, max=1, value=0.5, stepSize=0.1, style="slider") score_threshold 
+#@ Float     (Label="Maximal overlap between Bounding boxes", min=0, max=1, value=0.4, stepSize=0.1, style="slider") max_overlap 
 #@ String    (visibility="MESSAGE", value="Output") out 
 #@ Boolean   (Label="Open images (as stack ie images must have identical dimensions)") show_images 
 #@ Boolean   (Label="Add ROI to ROI Manager") add_roi 
