@@ -1,3 +1,7 @@
+# Installation
+Tick the __Multi-Tempalte-Matching__ AND __IJ-OpenCV__ update site of the Fijij udpater.  
+A new entry will show up in the Plugin Menu after restarting Fiji.
+
 # Documentation
 Template matching is an algorithm that can be used for object-detections in images.  
 The algorithm computes the probability to find one (or several) template images provided by the user.  
