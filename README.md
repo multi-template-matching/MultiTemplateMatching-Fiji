@@ -1,9 +1,11 @@
-# Introduction
+# Documentation
 Template matching is an algorithm that can be used for object-detections in images.  
-The algorithm computes the probability to find one (or several) template images provided by the user into a larger image.  
-For more theoretical details, see the section [Template Matching : How does it work ?](https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/wiki/Template-Matching%2C-How-does-it-work).  
+The algorithm computes the probability to find one (or several) template images provided by the user.  
+See the [wiki section](https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/wiki/) for the documentation.  
 
-You can find a similar implementation in KNIME in this [repo](https://github.com/multi-template-matching/MultipleTemplateMatching-KNIME).
+You can find a similar implementation in:
+- [Python](https://github.com/multi-template-matching/MultiTemplateMatching-Python)
+- [KNIME](https://github.com/multi-template-matching/MultipleTemplateMatching-KNIME) relying on the python implementation
 
 
 
