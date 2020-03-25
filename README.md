@@ -13,28 +13,26 @@ You can find a similar implementation in:
 
 
 
-## Citation
+# Citation
 If you use this implementation for your research, please cite:
   
 Thomas, L.S.V., Gehrig, J. _Multi-template matching: a versatile tool for object-localization in microscopy images._     
 BMC Bioinformatics 21, 44 (2020). https://doi.org/10.1186/s12859-020-3363-7
 
-## Related resources
-### IJ-OpenCV
+# Related resources
+## IJ-OpenCV
 This plugin is using OpenCV in Fiji thanks to [IJ-OpenCV](https://github.com/joheras/IJ-OpenCV).
 
 see also:  
 _Domínguez, César, Jónathan Heras, and Vico Pascual. "IJ-OpenCV: Combining ImageJ and OpenCV for processing images in biomedicine." Computers in biology and medicine 84 (2017): 189-194._
 
-### Multi-Template-Matching as a python package
-We also distribute a python package available on [PyPI](https://pypi.org/project/Multi-Template-Matching/).    
-
-## Licence
+   
+# Licence
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />The content of this wiki (including illustrations and videos) is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
 As a derived work of IJ-OpenCV, the source codes are licensed under GPL-3.
 
-## Origin of the work
+# Origin of the work
 This work has been part of the PhD project of **Laurent Thomas** under supervision of **Dr. Jochen Gehrig** at:  
   
 ACQUIFER a division of DITABIS AG  
@@ -44,7 +42,7 @@ Freiburger Str. 3
 
 <img src="https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/blob/master/Images/Acquifer_Logo_60k_cmyk_300dpi.png" alt="Fish" width="400" height="80">     
 
-## Funding
+# Funding
 This project has received funding from the European Union’s Horizon 2020 research and innovation program under the Marie Sklodowska-Curie grant agreement No 721537 ImageInLife.  
 
 <p float="left">
@@ -53,9 +51,9 @@ This project has received funding from the European Union’s Horizon 2020 resea
 </p>
 
 
-## Examples
+# Examples
 
-### Zebrafish head detection
+## Zebrafish head detection
 <img src="https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/blob/master/Images/FishRoi.JPG" alt="Fish" width="300" height="300"> 
 <img src="https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/blob/master/Images/Montage_Head.png" alt="MontageHead" width="500" height="300">
 
@@ -63,7 +61,7 @@ Dataset available on Zenodo
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2650162.svg)](https://doi.org/10.5281/zenodo.2650162)
 
 
-### Medaka larvae detections
+## Medaka larvae detections
 <img src="https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/blob/master/Images/EggDetected.png" alt="MedakaEgg" width="250" height="250">
 <img src="https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/blob/master/Images/MontageEgg.png" alt="MontageEgg" width="650" height="250">  
 
