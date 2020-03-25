@@ -34,7 +34,7 @@ Image_title = getTitle();
 run("Template Matching Image", "template=" + Temp1_title + " image=" + Image_title + " rotate=[] matching_method=[Normalised 0-mean cross-correlation] number_of_objects=1 score_threshold=0.50 maximal_overlap=0.25 add_roi");
 //Stop_Temp1 = getTime();
 //AverageTimeTemp1 = (Stop_Temp1 - Start_Temp1)/96;
- // Because we want to have the average time per image, and the first template matching is a batch-operation (one call for all slices) we divide by the number of images
+// Because we want to have the average time per image, and the first template matching is a batch-operation (one call for all slices) we divide by the number of images
 
 // Loop over stack
 //print("Average time per image(ms)");
