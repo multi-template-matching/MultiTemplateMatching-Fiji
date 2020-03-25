@@ -31,9 +31,10 @@ Image_title = getTitle();
 
 // Call 1st template matching
 //Start_Temp1 = getTime();
-run("Template Matching Image", "template=" + Temp1_title + " image=" + Image_title + " rotate=[] matching_method=[Normalised 0-mean cross-correlation] number_of_templates=1 score_threshold=0.50 maximal_overlap=0.25 add_roi");
+run("Template Matching Image", "template=" + Temp1_title + " image=" + Image_title + " rotate=[] matching_method=[Normalised 0-mean cross-correlation] number_of_objects=1 score_threshold=0.50 maximal_overlap=0.25 add_roi");
 //Stop_Temp1 = getTime();
-//AverageTimeTemp1 = (Stop_Temp1 - Start_Temp1)/96; // Because we want to have the average time per image, and the first template matching is a batch-operation (one call for all slices) we divide by the number of images
+//AverageTimeTemp1 = (Stop_Temp1 - Start_Temp1)/96;
+ // Because we want to have the average time per image, and the first template matching is a batch-operation (one call for all slices) we divide by the number of images
 
 // Loop over stack
 //print("Average time per image(ms)");
@@ -43,7 +44,8 @@ Roi.remove;
 n = nSlices;
 nRoi_old = roiManager("count"); // Roi of the 1st template matching
 for (i=1; i<=n; i++) {
-
+
+
 	//Start_Temp2 = getTime();
 	
 	// Isolate slice from stack (to perform the second template matching with a custom search ROI for that slice)
@@ -59,7 +61,7 @@ for (i=1; i<=n; i++) {
 	//print(x,y,width,height);
 
 	// Run template matching on slice with search ROI
-	run("Template Matching Image", "template=" + Temp2_title + " image=Slice_" + i +" flip_template_vertically rotate=[] matching_method=[Normalised 0-mean cross-correlation] number_of_templates=2 score_threshold=0.50 maximal_overlap=0.25 add_roi show_result");
+	run("Template Matching Image", "template=" + Temp2_title + " image=Slice_" + i +" flip_template_vertically rotate=[] matching_method=[Normalised 0-mean cross-correlation] number_of_objects=2 score_threshold=0.50 maximal_overlap=0.25 add_roi show_result");
 	
 	// Close hidden Slice image
 	//selectImage("Slice_"+i);
