@@ -9,7 +9,7 @@ Both detection (1st and 2nd template) are returned in the ROI manager.
 NB : Make sure the ROI Manager is empty before running this macro 
 
 # Get image names  
-```
+```java
 selectImage(temp1); 
 Temp1_title = getTitle(); 
 //print(Temp1_title); 
@@ -24,13 +24,13 @@ Image_title = getTitle();
  
 ```
 # Call 1st template matching 
-```
+```java
 run("Template Matching Image", "template=" + Temp1_title + " image=" + Image_title + " rotate=[] matching_method=[Normalised 0-mean cross-correlation] number_of_objects=1 score_threshold=0.50 maximal_overlap=0.25 add_roi"); 
 
 
 ```
 # Loop over stack of ROI 
-```
+```java
 setBatchMode(true); // do not open extracted slices 
 selectImage(image); 
 Roi.remove; 
@@ -82,11 +82,7 @@ for (i=1; i<=n; i++) {
 </table>
 
 # Again make sure that all ROI are displayed and associated to the slices  
-```
+```java
 roiManager("Show All"); 
 roiManager("Associate", "true"); 
 ```
-
-
-
-
