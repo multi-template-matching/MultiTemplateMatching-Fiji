@@ -33,12 +33,7 @@ _Domínguez, César, Jónathan Heras, and Vico Pascual. "IJ-OpenCV: Combining Im
 As a derived work of IJ-OpenCV, the source codes are licensed under GPL-3.
 
 # Origin of the work
-This work has been part of the PhD project of **Laurent Thomas** under supervision of **Dr. Jochen Gehrig** at:  
-  
-ACQUIFER a division of DITABIS AG  
-Digital Biomedical Imaging Systems AG  
-Freiburger Str. 3  
-75179 Pforzheim  
+This work has been part of the PhD project of **Laurent Thomas** under supervision of **Dr. Jochen Gehrig** at ACQUIFER.   
 
 <img src="https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/blob/master/Images/Acquifer_Logo_60k_cmyk_300dpi.png" alt="Fish" width="400" height="80">     
 
