@@ -39,6 +39,7 @@ Win.addSlider("Maximal_overlap between Bounding boxes", 0, 1, prefs.getFloat("Ma
 Win.addMessage("Outputs") 
 Win.addCheckbox("Add_ROI detected to ROI manager", prefs.getInt("AddRoi", True)) 
 Win.addCheckbox("Show_result table", prefs.getInt("ShowTable", False)) 
+Win.addMessage("Version 1.1.2")
 Win.addMessage("""If you use this plugin please cite :
 Thomas, L.S.V., Gehrig, J. 
 Multi-template matching: a versatile tool for object-localization in microscopy images. 
