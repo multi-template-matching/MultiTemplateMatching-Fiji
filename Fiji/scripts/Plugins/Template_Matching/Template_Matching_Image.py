@@ -168,11 +168,8 @@ if Win.wasOKed():
 				Title = image.getTitle()
 		
 		else: 
-			Title = image.getTitle() 
-		 
-		searchedImage.setTitle(Title) 
-		 
-			 
+			Title = image.getTitle()
+		
 		# Do the template(s) matching
 		#Start = time.clock()
 		Hits_BeforeNMS = getHit_Template(template, 
