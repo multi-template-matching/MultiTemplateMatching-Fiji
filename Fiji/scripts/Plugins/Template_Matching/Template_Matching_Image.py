@@ -123,7 +123,7 @@ if Win.wasOKed():
 	elif template.height>image.height or template.width>image.width: 
 		raise Exception('The template is larger in width and/or height than the searched image') 
  
-	### Initialise outputs ### 
+	### Initialize outputs ### 
 	if show_table: 
 		from ij.measure import ResultsTable 
 		from utils 		import AddToTable 
@@ -174,7 +174,14 @@ if Win.wasOKed():
 			 
 		# Do the template(s) matching
 		#Start = time.clock()
-		Hits_BeforeNMS = getHit_Template(template, ImagePlus(Title, searchedImage), flipv, fliph, angles, Method, n_hit, score_threshold, tolerance) # template and image as ImagePlus (to get the name together with the image matrix) 
+		Hits_BeforeNMS = getHit_Template(template, 
+										ImagePlus(Title, searchedImage), 
+										flipv, fliph, 
+										angles, 
+										Method, 
+										n_hit, 
+										score_threshold, 
+										tolerance) # template and image as ImagePlus (to get the name together with the image matrix) 
 		#Stop = time.clock()
 		#IJ.log("getHit_Template took " + str(Stop-Start) + " seconds")
 		
