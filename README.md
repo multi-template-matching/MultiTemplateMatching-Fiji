@@ -1,5 +1,5 @@
 # Installation
-Tick the __Multi-Tempalte-Matching__ AND __IJ-OpenCV__ update site of the Fijij udpater.  
+Tick the __Multi-Template-Matching__ AND __IJ-OpenCV__ update site of the Fijij udpater.  
 A new entry will show up in the Plugin Menu after restarting Fiji.
 
 # Documentation
