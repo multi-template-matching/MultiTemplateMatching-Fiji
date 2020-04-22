@@ -108,7 +108,7 @@ if Win.wasOKed():
  
  
 	## Import modules 
-	from ij            import IJ 
+	from ij            import IJ, ImagePlus
 	from ij.gui 	   import Roi 
  
 	## Import  HomeMade modules 
@@ -141,9 +141,8 @@ if Win.wasOKed():
  
 	 
 	# Loop over the images in the stack (or directly process if unique) 
-	ImageStack = image.getStack() 
+	imageStack = image.getStack() 
 	nSlice     = image.getStackSize() 
-	imageBis   = image.duplicate() # duplicate full stack to be sure to not mess around with ROI display
 	
 	for i in xrange(1,nSlice+1): 
 		
@@ -151,25 +150,16 @@ if Win.wasOKed():
 			IJ.resetEscape() # for next call
 			raise KeyboardInterrupt("Escape was pressed")
 		 
-		imageBis.setSlice(i) # for stacks (important for both with/without searchRoi) for single image no adversial effect 
+		searchedImage = imageStack.getProcessor(i) # of slice i
 		 
-		if Bool_SearchRoi: 
-			imageBis.setRoi(searchRoi) 
-			searchedImage = imageBis.crop() # Single image -> crop to ROI - Stack -> crop the slice to the ROI (in this case) 
-			 
-		elif nSlice>1: # no SearchRoi, but with Stack still crop to isolate the slice 
-			 
-			# Remove any ROI and crop 
-			imageBis.killRoi() 
-			searchedImage = imageBis.crop() 
- 
-		else: # no ROI and not a stack 
-			searchedImage = imageBis 
-			 
-					 
-		# Fix the name for imageBis 
+		if Bool_SearchRoi:
+			searchedImage.setRoi(searchRoi)
+			searchedImage = searchedImage.crop()
+		
+		
+		# Fix the name for searchImage 
 		if nSlice>1: 
-			SliceLabel = image.getStack().getSliceLabel(i)
+			SliceLabel = imageStack.getSliceLabel(i)
 			
 			if SliceLabel: # sometimes the slicelabel is none
 				Title = SliceLabel.split('\n',1)[0] # split otherwise we get some unecessary information 
@@ -184,7 +174,7 @@ if Win.wasOKed():
 			 
 		# Do the template(s) matching
 		#Start = time.clock()
-		Hits_BeforeNMS = getHit_Template(template, searchedImage, flipv, fliph, angles, Method, n_hit, score_threshold, tolerance) # template and image as ImagePlus (to get the name together with the image matrix) 
+		Hits_BeforeNMS = getHit_Template(template, ImagePlus(Title, searchedImage), flipv, fliph, angles, Method, n_hit, score_threshold, tolerance) # template and image as ImagePlus (to get the name together with the image matrix) 
 		#Stop = time.clock()
 		#IJ.log("getHit_Template took " + str(Stop-Start) + " seconds")
 		
