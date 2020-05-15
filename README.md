@@ -1,3 +1,6 @@
+[![DOI](https://zenodo.org/badge/DOI/10.1186/s12859-020-3363-7.svg)](https://doi.org/10.1186/s12859-020-3363-7)
+![Twitter Follow](https://img.shields.io/twitter/follow/LauLauThom?style=social)
+
 # Installation
 Tick the __Multi-Template-Matching__ AND __IJ-OpenCV__ update site of the Fijij udpater.  
 A new entry will show up in the Plugin Menu after restarting Fiji.
