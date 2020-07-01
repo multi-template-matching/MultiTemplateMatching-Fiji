@@ -2,8 +2,8 @@
 ![Twitter Follow](https://img.shields.io/twitter/follow/LauLauThom?style=social)
 
 # Installation
-Tick the __Multi-Template-Matching__ AND __IJ-OpenCV__ update site of the Fijij udpater.  
-A new entry will show up in the Plugin Menu after restarting Fiji.
+Tick the __Multi-Template-Matching__ AND __IJ-OpenCV__ update site of the Fiji udpater.  
+A new entry will show up in the Plugin Menu (all the way down) after restarting Fiji.
 
 # Documentation
 Template matching is an algorithm that can be used for object-detections in images.  
