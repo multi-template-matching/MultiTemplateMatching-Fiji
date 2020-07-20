@@ -1,6 +1,10 @@
 [![DOI](https://zenodo.org/badge/DOI/10.1186/s12859-020-3363-7.svg)](https://doi.org/10.1186/s12859-020-3363-7)
 ![Twitter Follow](https://img.shields.io/twitter/follow/LauLauThom?style=social)
 
+# Notes
+This branch is an attempt to compute the NMS using the opencv.dnn.NMSBoxes function
+`from org.bytedeco.javacpp.opencv_dnn import NMSBoxes`
+
 # Installation
 Tick the __Multi-Template-Matching__ AND __IJ-OpenCV__ update site of the Fiji udpater.  
 A new entry will show up in the Plugin Menu (all the way down) after restarting Fiji.

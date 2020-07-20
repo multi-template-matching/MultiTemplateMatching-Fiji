@@ -26,6 +26,7 @@ NB : remove print statements that were dramatically slowing down the execution w
 """
 from __future__ import division
 from ij.gui 	import Roi
+from org.bytedeco.javacpp.opencv_dnn import NMSBoxes
 
 def computeIoU(BBox1,BBox2):
 	'''
