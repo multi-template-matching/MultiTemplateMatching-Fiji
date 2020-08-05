@@ -2,8 +2,20 @@
 ![Twitter Follow](https://img.shields.io/twitter/follow/LauLauThom?style=social)
 
 # Installation
+
+## Via the Fiji updater
 Tick the __Multi-Template-Matching__ AND __IJ-OpenCV__ update site of the Fiji udpater.  
 A new entry will show up in the Plugin Menu (all the way down) after restarting Fiji.
+
+## Manual installation
+You can also do a manual installation by copying the files in the right place.  
+This can be useful if you would like to use a previous version that is not available via the update site, but which is archived in the releases tab.  
+You still need to tick the IJ-OpenCV update site in the Fiji updater to install the dependencies.  
+
+Then you can download the files either on the main page above this readme, by clicking the green button with the arrow pointing down *Code* then *Download ZIP*.  
+You can download the zip of previous versions on the [release tab](https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/releases), below asset select *Source code (zip)*.  
+Unzip the file and copy the folder Fiji.app to an existing Fiji installation.  
+More precisly copy the unzipped into the same parent directory than your current Fiji's Fiji.app (like the Desktop) to merge both directories: the files from Multi-Template-Matching will automatically be copied ot the right subdirectories.  
 
 # Documentation
 Template matching is an algorithm that can be used for object-detections in images.  
