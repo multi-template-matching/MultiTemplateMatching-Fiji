@@ -1,6 +1,6 @@
 '''
 Object recognition using one or multiple template images 
-this plugin search for some template (with eventual flipped/rotated version) into some target image. 
+this plugin searches for some templates (with eventual flipped/rotated versions) into some target image(s). 
 
 input : 
 - template : Path to template image or folder of template images 
