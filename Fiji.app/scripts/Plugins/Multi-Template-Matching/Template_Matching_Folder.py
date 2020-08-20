@@ -58,6 +58,7 @@ Win.addMessage("Outputs")
 Win.addCheckbox("Open_images as a stack (must have identical sizes)", prefs.getInt("ShowImages", True))
 Win.addCheckbox("Add_ROI detected  to ROI Manager", prefs.getInt("AddRoi", True))
 Win.addCheckbox("Show_result table", prefs.getInt("ShowTable", False))
+Win.addMessage("Version 1.1.3")
 Win.addMessage("""If you use this plugin please cite :
 Thomas, L.S.V., Gehrig, J. 
 Multi-template matching: a versatile tool for object-localization in microscopy images. 
