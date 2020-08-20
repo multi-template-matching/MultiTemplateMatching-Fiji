@@ -26,6 +26,8 @@ from ij            import IJ
 from ij.gui 	   import Roi
 from os			   import listdir
 from os.path 	   import join, isfile, isdir
+from org.scijava.io.location import FileLocation
+
 #import time
 
 ## Home-Made module 
@@ -166,7 +168,7 @@ if Win.wasOKed():
 			
 			if isfile(FullPathTem):
 				try:
-					fs.getFormat(FullPathTem) # check that it is an image file
+					fs.getFormat(FileLocation(FullPathTem)) # check that it is an image file
 					ListPathTemplate.append(FullPathTem)
 				except:
 					pass
@@ -192,7 +194,7 @@ if Win.wasOKed():
 			
 			if isfile(FullPathIm):
 				try:
-					fs.getFormat(FullPathIm) # check that it is an image file
+					fs.getFormat(FileLocation(FullPathIm)) # check that it is an image file
 					ListPathImage.append(FullPathIm)
 				except:
 					pass
