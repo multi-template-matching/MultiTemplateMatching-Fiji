@@ -41,24 +41,28 @@ Win.addDirectoryOrFileField("Image file or images folder", prefs.get("ImagePath"
 Win.addFileField("Rectangular_search_ROI (optional)",  prefs.get("RoiPath","searchRoi"))
 
 # Template pre-processing
+Win.addMessage("# Template(s) pre-processing")
 Win.addCheckbox("Flip_template_vertically", prefs.getInt("FlipV", False))
 Win.addCheckbox("Flip_template_horizontally", prefs.getInt("FlipH", False))
 Win.addStringField("Rotate template by ..(comma-separated)", prefs.get("Angles", ""))
 
-# Template matchign parameters
+# Template matching parameters
+Win.addMessage("# Detection parameters")
 Win.addChoice("Matching_method", ["Normalised Square Difference","Normalised cross-correlation","Normalised 0-mean cross-correlation"], prefs.get("Method","Normalised 0-mean cross-correlation"))
 Win.addNumericField("Number_of_objects expected", prefs.getInt("N_hit",1),0)
-Win.addMessage("If more than 1 object expected :")
+
+# Non-Maxima Suppression
+Win.addMessage("# Non-Maxima Suppression (if Nobjects > 1)")
 Win.addSlider("Score_Threshold", 0, 1, prefs.getFloat("Score_Threshold",0.5), 0.1) 
 #Win.addNumericField("Min_peak_height relative to neighborhood ([0-1], decrease to get more hits)", prefs.getFloat("Tolerance",0.1), 2)
 Win.addSlider("Maximal_overlap between Bounding boxes", 0, 1, prefs.getFloat("MaxOverlap",0.4), 0.1) 
 
 # Outputs
-Win.addMessage("Outputs")
+Win.addMessage("# Outputs")
 Win.addCheckbox("Open_images as a stack (must have identical sizes)", prefs.getInt("ShowImages", True))
 Win.addCheckbox("Add_ROI detected  to ROI Manager", prefs.getInt("AddRoi", True))
 Win.addCheckbox("Show_result table", prefs.getInt("ShowTable", False))
-Win.addMessage("Version 1.1.3")
+Win.addMessage("Version 1.1.4")
 Win.addMessage("""If you use this plugin please cite :
 Thomas, L.S.V., Gehrig, J. 
 Multi-template matching: a versatile tool for object-localization in microscopy images. 
