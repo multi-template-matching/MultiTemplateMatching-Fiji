@@ -34,6 +34,8 @@ If you use this implementation for your research, please cite:
 Thomas, L.S.V., Gehrig, J. _Multi-template matching: a versatile tool for object-localization in microscopy images._     
 BMC Bioinformatics 21, 44 (2020). https://doi.org/10.1186/s12859-020-3363-7
 
+Download the citation as a .ris file from the journal website, [here](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-020-3363-7.ris).
+
 # Related resources
 ## IJ-OpenCV
 This plugin is using OpenCV in Fiji thanks to [IJ-OpenCV](https://github.com/joheras/IJ-OpenCV).
