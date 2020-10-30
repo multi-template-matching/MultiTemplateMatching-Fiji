@@ -20,7 +20,7 @@ More precisly copy the unzipped into the same parent directory than your current
 # Documentation
 Template matching is an algorithm that can be used for object-detections in images.  
 The algorithm computes the probability to find one (or several) template images provided by the user.  
-See the [wiki section](https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/wiki/) for the documentation.  
+See the [wiki section](https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/wiki/) for the documentation, or the [website](https://multi-template-matching.github.io/Multi-Template-Matching/) of the project.
 
 You can find a similar implementation in:
 - [Python](https://github.com/multi-template-matching/MultiTemplateMatching-Python)
