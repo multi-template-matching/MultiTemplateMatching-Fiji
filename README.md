@@ -26,6 +26,9 @@ You can find a similar implementation in:
 - [Python](https://github.com/multi-template-matching/MultiTemplateMatching-Python)
 - [KNIME](https://github.com/multi-template-matching/MultipleTemplateMatching-KNIME) relying on the python implementation
 
+## Video tutorial  
+Playlist on [YouTube](https://www.youtube.com/playlist?list=PLHZOgc1s26MJ8QjYau7NcG5k0zh9SjHpo)  
+[![Tuto](https://img.youtube.com/vi/KlzIqSG5XBU/0.jpg)](https://youtu.be/KlzIqSG5XBU) 
 
 
 # Citation
