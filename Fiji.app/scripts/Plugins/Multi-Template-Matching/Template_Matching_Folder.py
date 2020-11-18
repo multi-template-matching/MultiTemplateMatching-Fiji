@@ -167,11 +167,12 @@ if Win.wasOKed():
 	elif isdir(TemplatePath): # template folder
 		ListPathTemplate = []
 		
+		# Check extension
 		for name in listdir(TemplatePath):
 			
 			FullPathTem = join(TemplatePath,name) 
 			
-			if isfile(FullPathTem):
+			if isfile(FullPathTem) and not name.endswith(('xml', 'java')):
 				try:
 					fs.getFormat(FileLocation(FullPathTem)) # check that it is an image file
 					ListPathTemplate.append(FullPathTem)
@@ -179,6 +180,8 @@ if Win.wasOKed():
 					pass
 	else:
 		raise Exception("Template path does not exist")
+	
+	print ListPathTemplate
 	
 	# Initialise list of templates (rather than opening them for every image iteration) 
 	List_Template = [ IJ.openImage(PathTemp) for PathTemp in ListPathTemplate ]  
@@ -197,7 +200,7 @@ if Win.wasOKed():
 			
 			FullPathIm = join(ImagePath,name) 
 			
-			if isfile(FullPathIm):
+			if isfile(FullPathIm) and not name.endswith(('xml', 'java')):
 				try:
 					fs.getFormat(FileLocation(FullPathIm)) # check that it is an image file
 					ListPathImage.append(FullPathIm)
@@ -219,6 +222,7 @@ if Win.wasOKed():
 			
 		# Get the current image 
 		ImpImage = IJ.openImage(PathIm) 
+		if not ImpImage: continue # skip for certain file formats such as xml which are scijava compatible but not images
 		ImName = ImpImage.getTitle() 
 		ImProc = ImpImage.getProcessor().duplicate() 
 		
@@ -281,6 +285,7 @@ if Win.wasOKed():
 			# Create detected ROI
 			roi = Roi(*hit['BBox'])
 			roi.setName(hit['TemplateName'])
+			roi.setProperty("Score",  str(hit["Score"]) )
 			roi.setPosition(i+1) # set ROI Z-position
 			
 			if add_roi:
