@@ -222,6 +222,7 @@ if Win.wasOKed():
 			# Create detected ROI 
 			roi = Roi(*hit['BBox']) 
 			roi.setName(hit['TemplateName']) 
+			roi.setProperty("Score",  str(hit["Score"]) )
 			roi.setPosition(i) # set ROI Z-position
 			#roi.setProperty("class", hit["TemplateName"])
 			

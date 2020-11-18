@@ -188,6 +188,7 @@ for i, im_file in enumerate(image_files):
 		if add_roi: 
 			roi = Roi(*hit['BBox']) 
 			roi.setName(hit['TemplateName']) 
+			roi.setProperty("Score",  str(hit["Score"]) )
 			roi.setPosition(i+1) # set slice position 
 			rm.add(None, roi, i+1) # Trick to be able to set slice when less images than ROI. Here i is an digit index before the Roi Name 
 			 
