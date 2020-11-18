@@ -22,13 +22,12 @@ Requirements:
 #from timeit import default_timer as timer
 
 #@PrefService prefs 
-from ij.gui import GenericDialog
 from Template_Matching.Version import version
-
+from fiji.util.gui import GenericDialogPlus
 # rest of imports below on purpose (otherwise searchRoi lost)
 
 ## Create GUI 
-Win = GenericDialog("Multiple Template Matching") 
+Win = GenericDialogPlus("Multiple Template Matching") 
 Win.addImageChoice("Template", prefs.get("Template","Choice")) 
 Win.addImageChoice("Image", prefs.get("Image", "Choice")) 
 Win.addMessage("# Template pre-processing")
