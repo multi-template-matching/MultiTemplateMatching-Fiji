@@ -32,6 +32,7 @@ from org.scijava.io.location import FileLocation
 
 ## Home-Made module 
 from Template_Matching.MatchTemplate_Module    import getHit_Template, CornerToCenter 
+from Template_Matching.Version                 import version
 from Template_Matching.NonMaximaSupression_Py2 import NMS 
 
 ## Create GUI
@@ -62,7 +63,7 @@ Win.addMessage("# Outputs")
 Win.addCheckbox("Open_images as a stack (must have identical sizes)", prefs.getInt("ShowImages", True))
 Win.addCheckbox("Add_ROI detected  to ROI Manager", prefs.getInt("AddRoi", True))
 Win.addCheckbox("Show_result table", prefs.getInt("ShowTable", False))
-Win.addMessage("Version 1.1.4")
+Win.addMessage(version)
 Win.addMessage("""If you use this plugin please cite :
 Thomas, L.S.V., Gehrig, J. 
 Multi-template matching: a versatile tool for object-localization in microscopy images. 
@@ -181,7 +182,7 @@ if Win.wasOKed():
 	else:
 		raise Exception("Template path does not exist")
 	
-	print ListPathTemplate
+	#print ListPathTemplate
 	
 	# Initialise list of templates (rather than opening them for every image iteration) 
 	List_Template = [ IJ.openImage(PathTemp) for PathTemp in ListPathTemplate ]  
