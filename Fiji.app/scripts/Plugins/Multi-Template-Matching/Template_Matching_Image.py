@@ -19,6 +19,8 @@ Requirements:
 - IJ-OpenCV update site
 '''
 #import time
+#from timeit import default_timer as timer
+
 #@PrefService prefs 
 from fiji.util.gui import GenericDialogPlus
 # rest of imports below on purpose (otherwise searchRoi lost)
@@ -175,6 +177,7 @@ if Win.wasOKed():
 		
 		# Do the template(s) matching
 		#Start = time.clock()
+		#start = timer()
 		Hits_BeforeNMS = getHit_Template(template, 
 										ImagePlus(Title, searchedImage), 
 										flipv, fliph, 
@@ -203,6 +206,10 @@ if Win.wasOKed():
 		else: 
 			Hits_AfterNMS = NMS(Hits_BeforeNMS, N=n_hit, maxOverlap=max_overlap, sortDescending=True) 
 
+		
+		#stop = timer()
+		#print stop-start
+		
  		#stop_NMS = time.clock()
  		#IJ.log("NMS duration(s): " + str(stop_NMS-start_NMS))
 		#print "\n-- Hits after NMS --\n" 
