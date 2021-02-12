@@ -1,7 +1,7 @@
 #@ ImagePlus ("Label=Template") template
 #@ ImagePlus ("Label=Image") image
 #@ String    (Label="Matching method",choices={"Normalised Square Difference", "Normalised cross-correlation", "Normalised 0-mean cross-correlation"}, value="Normalised 0-mean cross-correlation") method 
-#@ Float ("Score Threshold", min=0, max=1, stepSize=0.1) score_threshold
+#@ Float ("Score Threshold", style="slider", min=0, max=1, stepSize=0.05) score_threshold
 '''
 Compute correlation map between a template and an image
 currently only the normalsied corss correlation used
