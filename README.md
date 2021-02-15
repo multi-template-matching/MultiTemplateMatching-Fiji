@@ -5,7 +5,8 @@
 
 ## Via the Fiji updater
 Tick the __Multi-Template-Matching__ AND __IJ-OpenCV__ update site of the Fiji udpater.  
-A new entry will show up in the Plugin Menu (all the way down) after restarting Fiji.
+A new entry will show up in the Plugin Menu (all the way down) after restarting Fiji.  
+See how to [activate an update site](https://imagej.net/How_to_follow_a_3rd_party_update_site).
 
 ## Manual installation
 You can also do a manual installation by copying the files in the right place.  
