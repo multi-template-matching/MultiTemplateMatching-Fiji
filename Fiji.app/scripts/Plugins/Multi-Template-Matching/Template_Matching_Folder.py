@@ -20,12 +20,12 @@ Requirements:
 
 ## Import modules
 #@PrefService prefs
-#@FormatService fs # to check that the file in the folder are indeed images
 from fiji.util.gui import GenericDialogPlus
 from ij            import IJ
+from ij.io 		   import Opener
 from ij.gui 	   import Roi
 from os			   import listdir
-from os.path 	   import join, isfile, isdir
+from os.path 	   import join, isfile, isdir, basename
 from org.scijava.io.location import FileLocation
 
 #import time
@@ -34,6 +34,23 @@ from org.scijava.io.location import FileLocation
 from Template_Matching.MatchTemplate_Module    import getHit_Template, CornerToCenter 
 from Template_Matching.Version                 import version
 from Template_Matching.NonMaximaSupression_Py2 import NMS 
+
+
+def isImageFile(filePath):
+	"""Return false for filepath corresponding to directories or to non-image file."""
+	
+	if basename(filePath).startswith(".") :
+		return False
+	
+	opener = Opener()
+	type = opener.getFileType(filePath)
+	
+	if type in [Opener.UNKNOWN, Opener.JAVA_OR_TEXT, Opener.ROI, Opener.TEXT] :
+		return False
+	
+	return True
+
+
 
 ## Create GUI
 Win = GenericDialogPlus("Multiple Template Matching")
@@ -163,7 +180,13 @@ if Win.wasOKed():
 	## File or Folder
 	# Template(s)
 	if isfile(TemplatePath): # single template file
-		ListPathTemplate = [TemplatePath]
+		
+		if isImageFile(TemplatePath):
+			ListPathTemplate = [TemplatePath]
+		
+		else:
+			ListPathTemplate = []
+			IJ.error("No image found for template.")
 	
 	elif isdir(TemplatePath): # template folder
 		ListPathTemplate = []
@@ -171,14 +194,11 @@ if Win.wasOKed():
 		# Check extension
 		for name in listdir(TemplatePath):
 			
-			FullPathTem = join(TemplatePath,name) 
+			FullPathTem = join(TemplatePath, name) 
 			
-			if isfile(FullPathTem) and not name.endswith(('xml', 'java')):
-				try:
-					fs.getFormat(FileLocation(FullPathTem)) # check that it is an image file
-					ListPathTemplate.append(FullPathTem)
-				except:
-					pass
+			if isImageFile(FullPathTem) :
+				ListPathTemplate.append(FullPathTem)
+	
 	else:
 		raise Exception("Template path does not exist")
 	
@@ -192,21 +212,25 @@ if Win.wasOKed():
 	
 	# Image(s)
 	if isfile(ImagePath): # single image path
-		ListPathImage = [ImagePath]
+		
+		if isImageFile(ImagePath):
+			ListPathImage = [ImagePath]
+		
+		else:
+			ListPathImage = []
+			IJ.error("Selected file for image is not a recognized image file.")
+	
 	
 	elif isdir(ImagePath): # image folder
+		
 		ListPathImage = [] # initialise
 		
 		for name in listdir(ImagePath):
 			
 			FullPathIm = join(ImagePath,name) 
 			
-			if isfile(FullPathIm) and not name.endswith(('xml', 'java')):
-				try:
-					fs.getFormat(FileLocation(FullPathIm)) # check that it is an image file
-					ListPathImage.append(FullPathIm)
-				except:
-					pass
+			if isImageFile(FullPathIm) :
+				ListPathImage.append(FullPathIm)
 	
 	else: # neither a file path nor a folder path (ie non existing)
 		raise Exception("Image path does not exist")
