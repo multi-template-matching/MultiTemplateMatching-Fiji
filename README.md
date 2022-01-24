@@ -15,8 +15,11 @@ You still need to tick the IJ-OpenCV update site in the Fiji updater to install 
 
 Then you can download the files either on the main page above this readme, by clicking the green button with the arrow pointing down *Code* then *Download ZIP*.  
 You can download the zip of previous versions on the [release tab](https://github.com/multi-template-matching/MultiTemplateMatching-Fiji/releases), below asset select *Source code (zip)*.  
-Unzip the file and copy the folder Fiji.app to an existing Fiji installation.  
-More precisly copy the unzipped into the same parent directory than your current Fiji's Fiji.app (like the Desktop) to merge both directories: the files from Multi-Template-Matching will automatically be copied ot the right subdirectories.  
+Unzip the zip file, and on Windows, drag the folder Fiji.app from the unzipped directory, and drop it on the directory Fiji.app of your existing Fiji installation.  
+The idea is to merge both Fiji.app directories, in Windows this drag and dropping will automatically copy the files in the corresponding subdirectories.  
+Restart Fiji then.  
+If the drag and dropping does not work for you, you just have to copy the files from the unzziped directory to the corresponding directories in your Fiji installation.  
+If some directories (ex: Lib in Fiji.app/jars) does not exist, just create them.  
 
 # Documentation
 Template matching is an algorithm that can be used for object-detections in images.  
