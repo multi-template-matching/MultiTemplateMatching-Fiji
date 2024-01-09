@@ -16,7 +16,8 @@ from ij					import IJ,ImagePlus, ImageStack
 from ij.plugin.filter	import MaximumFinder
 #from ij.gui			import Roi, PointRoi
 
-if IJ.getFullVersion()<"1.52o":
+
+if IJ.getFullVersion() < "1.52o":
 	IJ.error("Please update ImageJ to min v1.52o. Help>Update ImageJ...")
 
 # OpenCV
@@ -29,14 +30,19 @@ except:
 	IJ.error("Missing OpenCV dependencies. Make sure to activate 'IJ-OpenCV plugins' update site.")
 
 
-# Java
-from java.lang 	import Float #used to convert BytesToFloat
-
 # Home-made module in jars/Lib sent with Acquifer update site 
 from ImageConverter import ImProcToMat, MatToImProc
 from ImageRotator 	import Rotate
 
-  
+# Java
+from java.lang 	import Float, Runtime #used to convert BytesToFloat
+from java.util.concurrent import ThreadPoolExecutor, Executors, TimeUnit
+
+nCPU = Runtime.getRuntime().availableProcessors(); 
+threadPool = Executors.newFixedThreadPool(nCPU); # max n-threads running in parallel, started and finished automatically
+threadPool.setKeepAliveTime(45, TimeUnit.SECONDS);
+threadPool.allowCoreThreadTimeOut(True);
+
 def MatchTemplate(ImProc_Template, ImProc_Target, Method):  
 	'''
 	Function that performs the matching between one template (opencv matrix) and an image (ImagePlus)  
@@ -187,6 +193,10 @@ def FindMinMax(CorrMapCV, Unique=True, MinMax="Max", Score_Threshold=0.5, Tolera
 	
 	return Extrema
 
+def getHit_SingleTemplate(template_ImProc, image_ImProc, method=5, n_Hit=1, score_threshold = 0.5):
+	"""
+	Find hits given a single template and image in ImageProcessor format.
+	"""
 	
 	
 	
@@ -275,11 +285,8 @@ def getHit_Template(ImpTemplate, ImpImage, FlipV=False, FlipH=False, Angles='', 
 
 
 		#### Detect min/maxima of correlation map ####
-		if N_Hit==1: 
-			Unique = True
-		else:
-			Unique = False
-		
+		Unique = N_Hit == 1
+	
 		if Method in [0,1]:
 			MinMax="Min"
 		else:
