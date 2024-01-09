@@ -30,34 +30,37 @@ except:
 
 
 # Java
-from java.lang 	import Float #used to convert BytesToFloat
+from java.lang	import Float #used to convert BytesToFloat
 
 # Home-made module in jars/Lib sent with Acquifer update site 
 from ImageConverter import ImProcToMat, MatToImProc
-from ImageRotator 	import Rotate
+from ImageRotator	import Rotate
 
-  
-def MatchTemplate(ImProc_Template, ImProc_Target, Method):  
+
+def MatchTemplate(imProc_template, imProc_target, method):	
 	'''
-	Function that performs the matching between one template (opencv matrix) and an image (ImagePlus)  
-	ImProc_Template : ImageProcessor object of the template image   
-	ImProc_Target	: ImageProcessor object of the image in which we search the template   
-	Method		    : Integer for the template matching method (openCV)  
+	Function that performs the matching between one template and an image  
+	imProc_template : ImageProcessor object of the template image	
+	imProc_target	: ImageProcessor object of the image in which we search the template   
+	method			: Integer for the template matching method (openCV)	 
 	return the correlation map 
 	'''
+	if imProc_template.getWidth() >= imProc_target.getWidth() or imProc_template.getHeight() >= imProc_target.getHeight():
+		raise Exception("Template larger or as large as the searched image")
+	
 	# Convert to image matrix, 8-bit (if both are 8-bit) or 32-bit 
-	if ImProc_Template.getBitDepth()==8 and ImProc_Target.getBitDepth()==8: 
-		ImTemplateCV = ImProcToMat(ImProc_Template, Bit=8) 
-		ImTargetCV	 = ImProcToMat(ImProc_Target, Bit=8) 
+	if imProc_template.getBitDepth()==8 and imProc_target.getBitDepth()==8: 
+		imTemplate = ImProcToMat(imProc_template, Bit=8) 
+		imTargetCV = ImProcToMat(imProc_target, Bit=8) 
 	else: 
-		ImTemplateCV = ImProcToMat(ImProc_Template, Bit=32) 
-		ImTargetCV	 = ImProcToMat(ImProc_Target, Bit=32) 
+		imTemplate = ImProcToMat(imProc_template, Bit=32) 
+		imTargetCV = ImProcToMat(imProc_target, Bit=32) 
 	 
 	# Create a correlation map object and do the matching  
-	CorrMapCV = Mat()  
-	matchTemplate(ImTargetCV, ImTemplateCV, CorrMapCV, Method)	# result directly stored in CorrMap  
+	corrMapCV = Mat()  
+	matchTemplate(imTargetCV, imTemplate, corrMapCV, method)	# result directly stored in CorrMap	 
 	 
-	return CorrMapCV 
+	return corrMapCV 
  
 
 
@@ -68,9 +71,9 @@ def FindMinMax(CorrMapCV, Unique=True, MinMax="Max", Score_Threshold=0.5, Tolera
 	or the MaximumFinder from ImageJ for multi-detection (in this case, for min detection the correlation map is inverted)
 	
 	- Unique			: True if we look for one global min/max, False if we want local ones
-	- MinMax 			: "Min" if we look for Minima, "Max" if we look for maxima
-	- Score_Threshold 	: in range [0;1] (correlation maps are normalised)
-	- Tolerance 		: Parameters for flood-fill. Not used here so should be set to 0 
+	- MinMax			: "Min" if we look for Minima, "Max" if we look for maxima
+	- Score_Threshold	: in range [0;1] (correlation maps are normalised)
+	- Tolerance			: Parameters for flood-fill. Not used here so should be set to 0 
 	
 	Returns List of Min/Max : [(X, Y, Coefficient), ... ]
 	'''
@@ -200,25 +203,25 @@ def getHit_Template(ImpTemplate, ImpImage, FlipV=False, FlipH=False, Angles='', 
 	The inter-NMS still remains to be done, it is not included in the function because other templates/hits might be used
 	
 	
-	- ImProc_Template : ImageProcessor object of the template image   
-	- ImProc_Image    : ImageProcessor object of the image in which we search the template   
-	- FlipV/H         : Boolean, search for additional vertical/horizontal flipped version of the template 
- 	- Angles          : String like "10,20,50" - angles to search for additional rotated version of the template (both initial and flipped template are rotated) 
+	- ImProc_Template : ImageProcessor object of the template image	  
+	- ImProc_Image	  : ImageProcessor object of the image in which we search the template	 
+	- FlipV/H		  : Boolean, search for additional vertical/horizontal flipped version of the template 
+	- Angles		  : String like "10,20,50" - angles to search for additional rotated version of the template (both initial and flipped template are rotated) 
 	- Method		  : Integer for the template matching method (openCV) 
-	- N_Hit           : Expected number of templates in the image
+	- N_Hit			  : Expected number of templates in the image
 	- Score_Threshold : respectively Min/Max value for the detection of Maxima/Minima in the correlation map 
-	- Tolerance       : peak height relative to neighbourhood for min/max detection (only used if N_hit>1). Set to 0 so that no effect (this is design for flood fill)
-	- Max_Overlap     : Max overlap (Intersection over Union, IoU) between bounding boxes used for NMS
+	- Tolerance		  : peak height relative to neighbourhood for min/max detection (only used if N_hit>1). Set to 0 so that no effect (this is design for flood fill)
+	- Max_Overlap	  : Max overlap (Intersection over Union, IoU) between bounding boxes used for NMS
 	
 	It returns a list of hit [ {TemplateName, BBox, Score}, ..., ]
 	'''
 	# Get ImageProcessor for template and image
 	ImProc_Template = ImpTemplate.getProcessor()
-	ImProc_Image    = ImpImage.getProcessor()
+	ImProc_Image	= ImpImage.getProcessor()
 	
 	# Get Image names for template and image
 	TemplateName = ImpTemplate.getTitle()
-	ImageName    = ImpImage.getTitle() 
+	ImageName	 = ImpImage.getTitle() 
 	
 	ListTemplate = [ {"Name":TemplateName, "ImProc":ImProc_Template} ] # initialise list with initial template
 	
@@ -267,7 +270,11 @@ def getHit_Template(ImpTemplate, ImpImage, FlipV=False, FlipH=False, Angles='', 
 	for template in ListTemplate: # template is a dico here
 
 		## Search the current template in the image -> Correlation Map ###
-		CorrMapCV = MatchTemplate(template["ImProc"], ImProc_Image, Method) 
+		try : 
+			CorrMapCV = MatchTemplate(template["ImProc"], ImProc_Image, Method) 
+		except Exception as error: # template larger than image for instance
+			IJ.log("Issue with template " + template["Name"] + " (was skipped)\n" + error)
+			continue
 		# View map for debugging
 		#CorrMap = MatToImProc(CorrMapCV)
 		#CorrMap = ImagePlus("CorrMap", CorrMap)
@@ -286,7 +293,7 @@ def getHit_Template(ImpTemplate, ImpImage, FlipV=False, FlipH=False, Angles='', 
 			MinMax="Max"
 		
 		List_XYCoeff  = FindMinMax(CorrMapCV, Unique, MinMax, Score_Threshold, Tolerance)
-		List_NewHit   = [ { "ImageName":ImageName,
+		List_NewHit	  = [ { "ImageName":ImageName,
 							"TemplateName":template["Name"], 
 							"BBox":(x, y, template['ImProc'].width, template['ImProc'].height), 
 							"Score":Coeff} for x,y,Coeff in List_XYCoeff ] 
