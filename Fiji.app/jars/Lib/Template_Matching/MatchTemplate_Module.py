@@ -45,8 +45,14 @@ def MatchTemplate(imProc_template, imProc_target, method):
 	method			: Integer for the template matching method (openCV)	 
 	return the correlation map 
 	'''
-	if imProc_template.getWidth() >= imProc_target.getWidth() or imProc_template.getHeight() >= imProc_target.getHeight():
-		raise Exception("Template larger or as large as the searched image")
+	
+	# Check if template larger than image
+	if imProc_template.getWidth() > imProc_target.getWidth() or imProc_template.getHeight() > imProc_target.getHeight():
+		raise Exception("Template is larger than the searched image (width and/or height)")
+	
+	# Check if template has exact same dimensions than the image
+	if imProc_template.getWidth() == imProc_target.getWidth() and imProc_template.getHeight() == imProc_target.getHeight():
+		raise Exception("Template has identical dimensions (width and height) than the searched image")
 	
 	# Convert to image matrix, 8-bit (if both are 8-bit) or 32-bit 
 	if imProc_template.getBitDepth()==8 and imProc_target.getBitDepth()==8: 
@@ -273,7 +279,7 @@ def getHit_Template(ImpTemplate, ImpImage, FlipV=False, FlipH=False, Angles='', 
 		try : 
 			CorrMapCV = MatchTemplate(template["ImProc"], ImProc_Image, Method) 
 		except Exception as error: # template larger than image for instance
-			IJ.log("Issue with template " + template["Name"] + " (was skipped)\n" + error)
+			IJ.log("Issue with template " + template["Name"] + " (was skipped)\n" + str(error))
 			continue
 		# View map for debugging
 		#CorrMap = MatToImProc(CorrMapCV)
