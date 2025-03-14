@@ -1,5 +1,5 @@
 '''
-This nodule contains a set of functions for multi-template-matching between a template and an image/stack. 
+This module contains a set of functions for multi-template-matching between a template and an image/stack. 
 The detected area will be displayed as a rectangular ROI on the image, and this ROI will be added to the ROI manager 
  
 Requirements : 
